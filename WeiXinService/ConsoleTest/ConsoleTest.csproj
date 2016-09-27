@@ -44,6 +44,20 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Wx.cache\Wx.Cache.csproj">
+      <Project>{9b1720f3-5e58-4c20-b102-a22aaa6f7db5}</Project>
+      <Name>Wx.Cache</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wx.Client\Wx.Client.csproj">
+      <Project>{8cd1f327-70e1-46d4-9d8a-c1628d62f446}</Project>
+      <Name>Wx.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Wx.weixin\Wx.Weixin.csproj">
+      <Project>{32d5ae2c-0b12-4d6b-8811-0d30c189867e}</Project>
+      <Name>Wx.Weixin</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

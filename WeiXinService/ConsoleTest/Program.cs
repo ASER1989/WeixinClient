@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Wx.Cache;
+
 
 namespace ConsoleTest
 {
@@ -9,8 +11,16 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            var date = new TimeSpan(0, 300, 0);
-            Console.Write(date);
+            new Wx.Weixin.Api().GetToken();
+            Cache.Set("test", "ttt",10);
+            Console.WriteLine(Cache.Get("test"));
+            Console.ReadKey();
+            Console.WriteLine("==============================");
+            Cache.Set("test01", "ttt", 1);
+            Console.WriteLine(Cache.Get("test"));
+            Console.ReadKey();
+            Console.WriteLine("==============================");
+            Console.Write(Cache.Get("test"));
             Console.ReadKey();
         }
     }
