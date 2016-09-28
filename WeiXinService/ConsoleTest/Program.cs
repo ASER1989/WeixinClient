@@ -11,16 +11,16 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            new Wx.Weixin.Api().GetToken();
-            Cache.Set("test", "ttt",10);
-            Console.WriteLine(Cache.Get("test"));
+           var t =  Wx.Weixin.Api.Token;
+           
+            Console.WriteLine(t);
             Console.ReadKey();
             Console.WriteLine("==============================");
-            Cache.Set("test01", "ttt", 1);
-            Console.WriteLine(Cache.Get("test"));
+            CacheApi.Set("test01", "ttt", 1);
+            Console.WriteLine(t);
             Console.ReadKey();
             Console.WriteLine("==============================");
-            Console.Write(Cache.Get("test"));
+            Console.Write(CacheApi.Get("test"));
             Console.ReadKey();
         }
     }

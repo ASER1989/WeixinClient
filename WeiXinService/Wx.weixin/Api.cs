@@ -4,12 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using Wx.Cache;
+using System.Web.Script.Serialization;
 
 namespace Wx.Weixin
 {
     public class Api 
     {
-        public string GetToken()
+        private static string token_key = "_icache_token_key_x80e";
+        public static string Token = _getToken();
+        private static string _getToken() { 
+           return (CacheApi.Get(token_key)??_GetToken()).ToString();
+        }
+        private static void _setToken(string token,int expTime) {
+            CacheApi.Set(token_key, token, expTime);
+        }
+        private static string _GetToken()
         {
             string appid = "wxa8d4e8cabb20e0d8";
             string appsec = "77f944c9ca7964485253564ac7b38d80";
@@ -23,8 +33,16 @@ namespace Wx.Weixin
                 result= reader.ReadToEnd();
             }
 
-            return result;
+            JavaScriptSerializer ser = new JavaScriptSerializer();
+            var res = ser.Deserialize<TokenModel>(result);
+            _setToken(res.access_token, res.expires_in - 120);
+            return res.access_token;
 
+        }
+
+        private class TokenModel {
+            public string access_token { get; set; }
+            public int expires_in { get; set; }
         }
     }
 }
