@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Wx.Cache;
+using Wx.Weixin;
 
 
 namespace ConsoleTest
@@ -11,9 +12,10 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
+          var res=  new UserManage().GetUserList();
            var t =  Wx.Weixin.Api.Token;
-           
-            Console.WriteLine(t);
+
+           Console.WriteLine(res);
             Console.ReadKey();
             Console.WriteLine("==============================");
             CacheApi.Set("test01", "ttt", 1);

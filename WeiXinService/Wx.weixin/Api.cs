@@ -21,8 +21,8 @@ namespace Wx.Weixin
         }
         private static string _GetToken()
         {
-            string appid = "wxa8d4e8cabb20e0d8";
-            string appsec = "77f944c9ca7964485253564ac7b38d80";
+            string appid = "wx6cd10b08ec0441fb";
+            string appsec = "33c778c9272bd4aac84022a5231e41e5";
             string result = null;
 
             System.Net.WebRequest wReq = System.Net.WebRequest.Create("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appsec);
@@ -30,7 +30,7 @@ namespace Wx.Weixin
             System.IO.Stream respStream = wResp.GetResponseStream();
             using (System.IO.StreamReader reader = new System.IO.StreamReader(respStream, Encoding.GetEncoding("UTF-8")))
             {
-                result= reader.ReadToEnd();
+                result = reader.ReadToEnd();
             }
 
             JavaScriptSerializer ser = new JavaScriptSerializer();
