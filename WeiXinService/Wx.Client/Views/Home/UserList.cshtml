@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>UserList</title>
+    <style type="text/css">
+        .box{
+            display:box;
+            display:-webkit-box;
+            border-bottom:solid 1px gray;
+        }
+        .headImg {
+            width:60px;
+            height:60px;
+            border-radius:60px;
+        }
+        .name{
+            line-height:60px;
+            padding-left:10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="doc"></div>
+    <script id="_temp" type="text/html">
+        <%for(var i in user_info_list){var item=user_info_list[i];%>
+        <div class="box">
+            <div><img class="headImg" src="<%=item.headimgurl%>" /></div>
+            <div class="name"><%=item.nickname%></div>
+        </div>
+        <%}%>
+    </script>
+<script src="/Res/Scripts/underscore.js"></script>
+    <script src="/Res/Scripts/jquery.js"></script>
+   
+    <script type="text/javascript">
+        function loadData(data) { 
+            var temp = _.template($("#_temp").html()); 
+            $("#doc").append(temp(data));
+            
+        }
+    </script>
+    <script type="text/javascript" src="/home/getuserlist.json?callback=loadData"></script>
+</body>
+</html>

@@ -12,10 +12,10 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-          var res=  new UserManage().GetUserList();
-           var t =  Wx.Weixin.Api.Token;
+            var res = new UserManage().GetUserList();
+            var t = Wx.Weixin.Api.Token;
 
-           Console.WriteLine(res);
+            Console.WriteLine(res);
             Console.ReadKey();
             Console.WriteLine("==============================");
             CacheApi.Set("test01", "ttt", 1);

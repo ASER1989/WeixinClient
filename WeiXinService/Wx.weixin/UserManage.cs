@@ -17,13 +17,20 @@ namespace Wx.Weixin
 
             JavaScriptSerializer ser = new JavaScriptSerializer();
             var res = ser.Deserialize<UserModel>(resStr);
-
+            //res.count = 10;
             var rsb = new StringBuilder();
             for (int i = 0; i < (res.count + 99) / 100; i++) {
-                var reqData = res.data.openid.Skip(i * 100).Take(100).ToList();
-              rsb.Append(GetUserInfo(reqData));
 
+                var reqData = res.data.openid.Skip(i * 100).Take(100).ToList();
+                var reqStr = GetUserInfo(reqData).Replace("{\"user_info_list\":[", "");
+                reqStr = reqStr.Substring(0,reqStr.Length - 2);
+
+                if(rsb.Length > 0 )rsb.Append(","); 
+
+                rsb.Append(reqStr);
             }
+            rsb.Insert(0, "{\"user_info_list\":[");
+            rsb.Append("]}");
             return rsb.ToString();
             
         }
