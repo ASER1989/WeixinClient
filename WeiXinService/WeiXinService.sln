@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wx.Cache", "Wx.cache\Wx.Cac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTest", "ConsoleTest\ConsoleTest.csproj", "{43176B16-B110-40BA-92DF-9E36F854D7A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wx.Extend", "Wx.Extend\Wx.Extend.csproj", "{D655D594-8284-484F-A8E6-E1C59CF35227}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{43176B16-B110-40BA-92DF-9E36F854D7A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43176B16-B110-40BA-92DF-9E36F854D7A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43176B16-B110-40BA-92DF-9E36F854D7A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D655D594-8284-484F-A8E6-E1C59CF35227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D655D594-8284-484F-A8E6-E1C59CF35227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D655D594-8284-484F-A8E6-E1C59CF35227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D655D594-8284-484F-A8E6-E1C59CF35227}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

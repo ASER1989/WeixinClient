@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
+using Wx.Extend;
 
 namespace Wx.Weixin
 {
@@ -13,7 +14,7 @@ namespace Wx.Weixin
         {
             //https://api.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&next_openid=NEXT_OPENID
             string uri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + Api.Token;
-            var resStr = _webReq(uri);
+            var resStr = WebHttp.WebReq(uri);
 
             JavaScriptSerializer ser = new JavaScriptSerializer();
             var res = ser.Deserialize<UserModel>(resStr);
@@ -22,6 +23,7 @@ namespace Wx.Weixin
             for (int i = 0; i < (res.count + 99) / 100; i++) {
 
                 var reqData = res.data.openid.Skip(i * 100).Take(100).ToList();
+               
                 var reqStr = GetUserInfo(reqData).Replace("{\"user_info_list\":[", "");
                 reqStr = reqStr.Substring(0,reqStr.Length - 2);
 
@@ -31,16 +33,21 @@ namespace Wx.Weixin
             }
             rsb.Insert(0, "{\"user_info_list\":[");
             rsb.Append("]}");
-            return rsb.ToString();
-            
+            return rsb.ToString(); 
         }
-
-        public string GetUserInfo(List<string> data)
+         
+        /// <summary>
+        /// 摘要：
+        ///     通过openid获取用户信息
+        /// </summary>
+        /// <param name="openidList">openid列表</param>
+        /// <returns>string，用户信息json字符串</returns>
+        public string GetUserInfo(List<string> openidList)
         {
             //https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=ACCESS_TOKEN
             List<infoOpenid> dataModel = new List<infoOpenid>();
-            data = data.Take(100).ToList();
-            data.ForEach((p) =>
+            openidList = openidList.Take(100).ToList();
+            openidList.ForEach((p) =>
             {
                 dataModel.Add(new infoOpenid() { openid = p });
             });
@@ -50,61 +57,26 @@ namespace Wx.Weixin
             postData.Add("",dataJson);
 
 
-           var postStr = _webPost("https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + Api.Token, dataJson);
+            var postStr = WebHttp.WebPost("https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + Api.Token, dataJson);
            return postStr;
 
 
         }
+        /// <summary>
+        /// 通过openid获取用户信息
+        /// </summary>
+        /// <param name="openid">openid</param>
+        /// <returns>string，用户信息json字符串</returns>
+        public string GetUserInfo(string openid) {
+            //https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
 
-        private string _webReq(string uri)
-        {
+            if (string.IsNullOrWhiteSpace(openid)) return null;
 
-            string result = null;
-            System.Net.WebRequest wReq = System.Net.WebRequest.Create(uri);
-            System.Net.WebResponse wResp = wReq.GetResponse();
-            System.IO.Stream respStream = wResp.GetResponseStream();
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(respStream, Encoding.GetEncoding("UTF-8")))
-            {
-                result = reader.ReadToEnd();
-            }
-            return result;
+            var uri = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" + Api.Token + "&openid=" + openid + "&lang=zh_CN";
+            return WebHttp.WebReq(uri);
+
         }
-        private string _webPost(string uri, string data)
-        {
 
-            string result = null;
-            System.Net.WebRequest wReq = System.Net.WebRequest.Create(uri);
-            var byteArray =  Encoding.UTF8.GetBytes(data);
-            wReq.Method = "POST";
-            wReq.ContentType = "application/x-www-form-urlencoded";
-            wReq.ContentLength = byteArray.Length;
-            Stream dataStream = wReq.GetRequestStream();
-
-            // Write the data to the request stream.
-            dataStream.Write(byteArray, 0, byteArray.Length);
-            // Close the Stream object.
-            dataStream.Close();
-            // Get the response.
-
-            System.Net.WebResponse wResp = wReq.GetResponse();
-            System.IO.Stream respStream = wResp.GetResponseStream();
-            using (System.IO.StreamReader reader = new System.IO.StreamReader(respStream, Encoding.GetEncoding("UTF-8")))
-            {
-                result = reader.ReadToEnd();
-            }
-            return result;
-        }
-        //private string _webPost(string uri, System.Collections.Specialized.NameValueCollection data)
-        //{
-
-        //    string result = null;
-        //    System.Net.WebClient wReq = new System.Net.WebClient();
-        //    byte[] wResp = wReq.UploadValues(uri, "POST", data);
-
-
-        //    result = System.Text.Encoding.UTF8.GetString(wResp);
-        //    return result;
-        //}
 
         class UserModel
         {
