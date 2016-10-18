@@ -14,16 +14,33 @@ namespace Wx.Client.Controllers
         //
         // GET: /Home/
 
+        public string Init(string echostr=null) {
+            return echostr;
+        }
         public ActionResult Index()
         {
             //HttpRuntime.Cache
-            
-            return View();
+            return OAuth("http://sq.023qx.net/home/userlist");
+            //return View();
         }
 
-        public ActionResult UserList() {
-            //var data = new JavaScriptSerializer().Deserialize<UserReqModel>(resStr);
+        public RedirectResult OAuth(string uri)
+        {
+            string url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + Api.Appid + "&redirect_uri=" + Url.Encode(uri) + "&response_type=code&scope=snsapi_base&state=dev#wechat_redirect";
+            
+          return  Redirect(url);
+        }
 
+        public ActionResult UserList(string code = null)
+        {
+            //var data = new JavaScriptSerializer().Deserialize<UserReqModel>(resStr);
+            var opt = new UserManage();
+
+            var openid = opt.GetOpenidByCode(code); 
+            string userInfo = opt.GetUserInfo(openid);
+
+            TempData["code"] = openid;
+            TempData["userInfo"] = userInfo;
             return View();
         }
 

@@ -9,20 +9,43 @@ using System.Web.Script.Serialization;
 
 namespace Wx.Weixin
 {
-    public class Api 
+    public sealed class Api
     {
         private static string token_key = "_icache_token_key_x80e";
-        public static string Token = _getToken();
-        private static string _getToken() { 
-           return (CacheApi.Get(token_key)??_GetToken()).ToString();
+        private static string appid = "wx6cd10b08ec0441fb";
+        private static string appsec = "33c778c9272bd4aac84022a5231e41e5";
+
+        /// <summary>
+        /// 当前有效token
+        /// <para>只读属性</para>
+        /// </summary>
+        public static string Token
+        {
+            get { return (CacheApi.Get(token_key) ?? _GetToken()).ToString(); }
+
         }
-        private static void _setToken(string token,int expTime) {
+        /// <summary>
+        /// 当前账号appid
+        /// <para>  只读属性</para>
+        /// </summary>
+        public static string Appid
+        {
+            get { return appid; }
+        }
+
+        public static string AppSec
+        {
+            get { return appsec; }
+        }
+
+        private static void _setToken(string token, int expTime)
+        {
             CacheApi.Set(token_key, token, expTime);
         }
         private static string _GetToken()
         {
-            string appid = "wx6cd10b08ec0441fb";
-            string appsec = "33c778c9272bd4aac84022a5231e41e5";
+            //string appid = "wx6cd10b08ec0441fb";
+            //string appsec = "33c778c9272bd4aac84022a5231e41e5";
             string result = null;
 
             System.Net.WebRequest wReq = System.Net.WebRequest.Create("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" + appid + "&secret=" + appsec);
@@ -40,7 +63,8 @@ namespace Wx.Weixin
 
         }
 
-        private class TokenModel {
+        private class TokenModel
+        {
             public string access_token { get; set; }
             public int expires_in { get; set; }
         }

@@ -26,12 +26,17 @@
     </style>
 </head>
 <body>
+    <h3>CODE:@TempData["code"]</h3>
+    <hr/>
+    <h3 style="margin-top:10px;margin-bottom:10px">@TempData["userInfo"]</h3>
+    <hr/>
     <div id="doc"></div>
     <script id="_temp" type="text/html">
         <%for(var i in user_info_list){var item=user_info_list[i];%>
         <div class="box">
             <div><img class="headImg" src="<%=item.headimgurl%>" /></div>
             <div class="name"><%=item.nickname%></div>
+            <div class="name"><%=item.openid%></div>
         </div>
         <%}%>
     </script>
