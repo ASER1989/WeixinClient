@@ -14,8 +14,7 @@ namespace Wx.Weixin
         /// </summary>
         public int SendTextMsg(string openid, string content)
         {
-            string uri = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + Api.Token;
-            var serializer = new JavaScriptSerializer();
+           
             var postObj = new
             {
                 touser = openid,
@@ -23,12 +22,24 @@ namespace Wx.Weixin
                 text = new { content = content }
             };
 
-            var postJson = serializer.Serialize(postObj);
+            var postJson = new JavaScriptSerializer().Serialize(postObj);
+
+            return _Send(postJson);
+          
+        }
+
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="postJson">string：消息Json</param>
+        /// <returns>code</returns>
+        private int _Send(string postJson) {
+            string uri = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + Api.Token;
 
             //{"errcode":0,"errmsg":"ok"}
             var postStr = WebHttp.WebPost(uri, postJson);
-            var res = serializer.Deserialize<SendMsgModel>(postStr);
-            
+            var res = new JavaScriptSerializer().Deserialize<SendMsgModel>(postStr);
+
             return res.errcode;
         }
     }
