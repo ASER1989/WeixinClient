@@ -142,6 +142,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Wx.cache\Wx.Cache.csproj">
+      <Project>{9b1720f3-5e58-4c20-b102-a22aaa6f7db5}</Project>
+      <Name>Wx.Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wx.weixin\Wx.Weixin.csproj">
       <Project>{32d5ae2c-0b12-4d6b-8811-0d30c189867e}</Project>
       <Name>Wx.Weixin</Name>
@@ -155,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\relese.pubxml" />
+    <Content Include="Views\Home\MyHome.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

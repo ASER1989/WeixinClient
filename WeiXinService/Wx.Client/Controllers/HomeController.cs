@@ -20,8 +20,21 @@ namespace Wx.Client.Controllers
         public ActionResult Index()
         {
             //HttpRuntime.Cache
-            return OAuth("http://sq.023qx.net/home/userlist");
+            return OAuth("http://sq.023qx.net/home/myhome");
             //return View();
+        }
+
+        public ActionResult MyHome(string code=null) {
+            var opt = new UserManage();
+
+            var openid = opt.GetOpenidByCode(code);
+            Cache.CacheApi.Set("openid", openid);
+
+            string userInfo = opt.GetUserInfo(openid);
+
+            TempData["code"] = openid;
+            TempData["userInfo"] = userInfo;
+            return View();
         }
 
         public RedirectResult OAuth(string uri)

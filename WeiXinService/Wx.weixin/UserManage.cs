@@ -54,8 +54,8 @@ namespace Wx.Weixin
             });
 
             var dataJson = "{\"user_list\":" + new JavaScriptSerializer().Serialize(dataModel) + "}";
-            var postData = new System.Collections.Specialized.NameValueCollection();
-            postData.Add("", dataJson);
+            //var postData = new System.Collections.Specialized.NameValueCollection();
+            //postData.Add("", dataJson);
 
 
             var postStr = WebHttp.WebPost("https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + Api.Token, dataJson);

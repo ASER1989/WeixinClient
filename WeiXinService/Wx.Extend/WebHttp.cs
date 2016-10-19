@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Wx.Extend
 {
-    public static class WebHttp
+    public class WebHttp
     {
 
         public static string WebReq(string uri)
