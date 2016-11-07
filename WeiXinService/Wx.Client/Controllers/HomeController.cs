@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wx.Client.Models;
+using Wx.Extend;
 using Wx.Weixin;
 
 namespace Wx.Client.Controllers
@@ -28,9 +29,9 @@ namespace Wx.Client.Controllers
             var opt = new UserManage();
 
             var openid = opt.GetOpenidByCode(code);
-            Cache.CacheApi.Set("openid", openid);
-
             string userInfo = opt.GetUserInfo(openid);
+
+            SessionCore.OpenId = openid;
 
             TempData["code"] = openid;
             TempData["userInfo"] = userInfo;

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.IO;
+using System.Linq;
 using System.Text;
 using Wx.Cache;
 using Wx.Weixin;
+using Wx.Extend;
 
 
 namespace ConsoleTest
@@ -12,6 +14,7 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("111111".ToMd5());
             //var res = new UserManage().GetUserList();
             var t = Wx.Weixin.Api.Token;
             new MessageManage().SendTextMsg("osObDvmhRn7lIbpRRINNZJvN-WJ4", "this is a test msg!");
@@ -25,6 +28,13 @@ namespace ConsoleTest
             Console.WriteLine("==============================");
             Console.Write(CacheApi.Get("test"));
             Console.ReadKey();
+        }
+    }
+
+    public class Test {
+
+        public T eq<T>(bool istrue,T v,T fv) {
+            return istrue ? v : fv;
         }
     }
 }

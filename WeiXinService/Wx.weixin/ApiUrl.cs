@@ -14,5 +14,7 @@ namespace Wx.Weixin
         /// <para>需要带Token</para>
         /// </summary>
         public static string SendMsg { get { return _SendMsg; } }
+
+        
     }
 }

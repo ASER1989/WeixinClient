@@ -146,6 +146,10 @@
       <Project>{9b1720f3-5e58-4c20-b102-a22aaa6f7db5}</Project>
       <Name>Wx.Cache</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wx.Extend\Wx.Extend.csproj">
+      <Project>{d655d594-8284-484f-a8e6-e1c59cf35227}</Project>
+      <Name>Wx.Extend</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wx.weixin\Wx.Weixin.csproj">
       <Project>{32d5ae2c-0b12-4d6b-8811-0d30c189867e}</Project>
       <Name>Wx.Weixin</Name>

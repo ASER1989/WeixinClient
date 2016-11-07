@@ -56,6 +56,10 @@
       <Project>{8cd1f327-70e1-46d4-9d8a-c1628d62f446}</Project>
       <Name>Wx.Client</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Wx.Extend\Wx.Extend.csproj">
+      <Project>{d655d594-8284-484f-a8e6-e1c59cf35227}</Project>
+      <Name>Wx.Extend</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wx.weixin\Wx.Weixin.csproj">
       <Project>{32d5ae2c-0b12-4d6b-8811-0d30c189867e}</Project>
       <Name>Wx.Weixin</Name>

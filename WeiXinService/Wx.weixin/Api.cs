@@ -6,14 +6,20 @@ using System.Text;
 using System.Web;
 using Wx.Cache;
 using System.Web.Script.Serialization;
+using System.Collections.Specialized;
+using System.Configuration;
 
 namespace Wx.Weixin
 {
     public sealed class Api
     {
-        private static string token_key = "_icache_token_key_x80e";
-        private static string appid = "wx6cd10b08ec0441fb";
-        private static string appsec = "33c778c9272bd4aac84022a5231e41e5";
+        NameValueCollection appSettings = System.Configuration.ConfigurationManager.AppSettings;
+
+        private static readonly string token_key = "_icache_token_key_x80e";
+        //private static readonly string appid = "wx6cd10b08ec0441fb";
+        //private static readonly string appsec = "33c778c9272bd4aac84022a5231e41e5";
+        private static readonly string appid = "wxf07c08710f813ad4";
+        private static readonly string appsec = "a2f116467862a1b5625dff0466d05275";
 
         /// <summary>
         /// 当前有效token
