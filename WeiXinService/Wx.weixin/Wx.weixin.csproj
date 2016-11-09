@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -42,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
+    <Compile Include="ApiModels\RedPackModel.cs" />
     <Compile Include="ApiModels\SendMsgModel.cs" />
     <Compile Include="ApiUrl.cs" />
     <Compile Include="MessageManage.cs" />
