@@ -1,5 +1,57 @@
 ﻿@{
-    ViewBag.Title = "Index";
+    Layout = null;
 }
 
-<h2>Index</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>个人中心</title>
+    <style type="text/css">
+        .box {
+            display: box;
+            display: -webkit-box;
+            border-bottom: solid 1px gray;
+        }
+
+        .headImg {
+            width: 60px;
+            height: 60px;
+            border-radius: 60px;
+        }
+
+        .name {
+            line-height: 60px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h3>CODE:@TempData["code"]</h3>
+    <hr />
+    <h3 style="margin-top:10px;margin-bottom:10px">@TempData["userInfo"]</h3>
+    <hr />
+    <div id="doc"></div>
+    <input id="__info" type="hidden" value="@TempData["userinfo"]" />
+    <script id="_temp" type="text/html">
+        <div><img class="headImg" src="<%=headimgurl%>" /><span class="name"><%=nickname%></span></div>
+        <div><input type="text" value="<%=openid%>" /></div>
+    </script>
+    <script src="/Res/Scripts/underscore.js"></script>
+    <script src="/Res/Scripts/jquery.js"></script>
+
+    <script type="text/javascript">
+        function loadData(data) {
+            var temp = _.template($("#_temp").html());
+            $("#doc").append(temp(data));
+
+        }
+        $(function () {
+            var data = JSON.parse($("#__info").val());
+            loadData(data);
+        });
+    </script>
+    @*<script type="text/javascript" src="/home/getuserlist.json?callback=loadData"></script>*@
+</body>
+</html>
