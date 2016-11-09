@@ -19,6 +19,9 @@ namespace Wx.Weixin
         private static readonly string appid = appConfig["_appkey"];  //"wxf07c08710f813ad4";
         private static readonly string appsec = appConfig["_appsec"];// "a2f116467862a1b5625dff0466d05275";
 
+        private static readonly string certPath = appConfig["_cret_path"];//证书安装路径
+        private static readonly string certPassword = appConfig["_cret_password"];//证书密码
+
         /// <summary>
         /// 当前有效token
         /// <para>只读属性</para>
@@ -40,6 +43,15 @@ namespace Wx.Weixin
         public static string AppSec
         {
             get { return appsec; }
+        }
+
+        public static string CertPath
+        {
+            get { return certPath; }
+        }
+
+        public static string CertPassword {
+            get { return certPassword; }
         }
 
         private static void _setToken(string token, int expTime)

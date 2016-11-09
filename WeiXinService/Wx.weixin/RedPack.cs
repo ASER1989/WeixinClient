@@ -21,7 +21,7 @@ namespace Wx.Weixin
             dic.Add("sign", sign);
 
             var postData = _DicToXmlStr(dic);
-            new WebHttp().WebPost(url, postData);
+            new WebHttp().WebPostSSL(url, postData,Api.CertPath,Api.CertPassword);
            
         }
 
