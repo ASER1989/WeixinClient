@@ -14,7 +14,7 @@ namespace Wx.Weixin
         {
 
             string uri = "https://api.weixin.qq.com/cgi-bin/user/get?access_token=" + Api.Token;
-            var resStr = WebHttp.WebReq(uri);
+            var resStr = new WebHttp().WebReq(uri);
 
             JavaScriptSerializer ser = new JavaScriptSerializer();
             var res = ser.Deserialize<UserModel>(resStr);
@@ -58,7 +58,7 @@ namespace Wx.Weixin
             //postData.Add("", dataJson);
 
 
-            var postStr = WebHttp.WebPost("https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + Api.Token, dataJson);
+            var postStr = new WebHttp().WebPost("https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=" + Api.Token, dataJson);
             return postStr;
 
 
@@ -74,7 +74,7 @@ namespace Wx.Weixin
             if (string.IsNullOrWhiteSpace(openid)) return null;
 
             var uri = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=" + Api.Token + "&openid=" + openid + "&lang=zh_CN";
-            return WebHttp.WebReq(uri);
+            return new WebHttp().WebReq(uri);
 
         }
 
@@ -97,7 +97,7 @@ namespace Wx.Weixin
             if (string.IsNullOrWhiteSpace(code)) return null;
 
             var uri = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + Api.Appid + "&secret=" + Api.AppSec + "&code=" + code + "&grant_type=authorization_code";
-            return WebHttp.WebReq(uri);
+            return new WebHttp().WebReq(uri);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Wx.Weixin
             if (string.IsNullOrWhiteSpace(code)) return null;
 
             var uri = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + Api.Appid + "&secret=" + Api.AppSec + "&code=" + code + "&grant_type=authorization_code";
-            var res = WebHttp.WebReq(uri);
+            var res = new WebHttp().WebReq(uri);
             var tokenInfo = new JavaScriptSerializer().Deserialize<TokenModel>(res);
             return tokenInfo == null ? null : tokenInfo.openid;
         }

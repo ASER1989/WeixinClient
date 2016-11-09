@@ -37,7 +37,7 @@ namespace Wx.Weixin
             string uri = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + Api.Token;
 
             //{"errcode":0,"errmsg":"ok"}
-            var postStr = WebHttp.WebPost(uri, postJson);
+            var postStr = new WebHttp().WebPost(uri, postJson);
             var res = new JavaScriptSerializer().Deserialize<SendMsgModel>(postStr);
 
             return res.errcode;

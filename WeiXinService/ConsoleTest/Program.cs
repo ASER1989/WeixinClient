@@ -14,19 +14,26 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("111111".ToMd5());
+retry:
+            var str = new RedPack()._Nonce();
+            Console.WriteLine(str);
+          
+            var y = Console.ReadKey();
+            if (y.KeyChar.ToString() == "y") {
+                goto retry;
+            }
             //var res = new UserManage().GetUserList();
-            var t = Wx.Weixin.Api.Token;
-            new MessageManage().SendTextMsg("osObDvmhRn7lIbpRRINNZJvN-WJ4", "this is a test msg!");
+            //var t = Wx.Weixin.Api.Token;
+            //new MessageManage().SendTextMsg("osObDvmhRn7lIbpRRINNZJvN-WJ4", "this is a test msg!");
             //var res = Url.Encode("");
-            Console.WriteLine(t);
-            Console.ReadKey();
-            Console.WriteLine("==============================");
-            CacheApi.Set("test01", "ttt", 1);
             //Console.WriteLine(t);
-            Console.ReadKey();
-            Console.WriteLine("==============================");
-            Console.Write(CacheApi.Get("test"));
+            //Console.ReadKey();
+            //Console.WriteLine("==============================");
+            //CacheApi.Set("test01", "ttt", 1);
+            ////Console.WriteLine(t);
+            //Console.ReadKey();
+            //Console.WriteLine("==============================");
+            //Console.Write(CacheApi.Get("test"));
             Console.ReadKey();
         }
     }

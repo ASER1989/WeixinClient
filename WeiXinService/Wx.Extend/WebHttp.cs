@@ -9,7 +9,7 @@ namespace Wx.Extend
     public class WebHttp
     {
 
-        public static string WebReq(string uri)
+        public  string WebReq(string uri)
         {
 
             string result = null;
@@ -22,7 +22,7 @@ namespace Wx.Extend
             }
             return result;
         }
-        public static string WebPost(string uri, string data)
+        public  string WebPost(string uri, string data)
         {
 
             string result = null;
