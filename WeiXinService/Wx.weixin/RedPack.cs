@@ -20,6 +20,7 @@ namespace Wx.Weixin
             dic.Add("wishing","老板发大财！");//红包祝福语（暂未自定义）
             dic.Add("act_name", "红包测试，中饱私囊"); //活动名称
             dic.Add("remark", "JSON你懂吗？");//备注
+            //return new PayBase().SignTest(dic, url);
             return new PayBase().Pay(dic, url);
 
         }

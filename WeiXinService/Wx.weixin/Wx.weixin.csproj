@@ -49,6 +49,7 @@
     <Compile Include="MessageManage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PayBase.cs" />
+    <Compile Include="RedPack.cs" />
     <Compile Include="UserManage.cs" />
   </ItemGroup>
   <ItemGroup>

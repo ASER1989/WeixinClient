@@ -16,11 +16,11 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
 
-            Console.WriteLine(GetAddressIP());
+            Console.WriteLine(new RedPack().SendReadPack("oK8WAt8VieVye7PJW41kU9oW_vH0",1));
 
 retry:
-            var str = new PayBase()._Nonce();
-            Console.WriteLine(str);
+            //var str = new PayBase()._Nonce();
+            //Console.WriteLine(str);
           
             var y = Console.ReadKey();
             if (y.KeyChar.ToString() == "y") {

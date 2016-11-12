@@ -167,6 +167,7 @@
     <None Include="Properties\PublishProfiles\E-Rel.pubxml" />
     <None Include="Properties\PublishProfiles\relese.pubxml" />
     <Content Include="Views\Home\MyHome.cshtml" />
+    <Content Include="Views\Home\RedPackTest.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

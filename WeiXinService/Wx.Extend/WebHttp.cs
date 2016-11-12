@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -58,11 +60,16 @@ namespace Wx.Extend
             //string password = ConfigurationManager.AppSettings["password"].ToString();
             X509Certificate2 cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(certPath, password, X509KeyStorageFlags.MachineKeySet);
 
-            System.Net.WebRequest wReq = System.Net.WebRequest.Create(uri);
+            //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult); 
+            //X509Certificate cer = new X509Certificate(certPath, password);
+
+            //System.Net.WebRequest wReq = System.Net.WebRequest.Create(uri);
+            HttpWebRequest wReq = (HttpWebRequest)HttpWebRequest.Create(uri); 
             var byteArray = Encoding.UTF8.GetBytes(data);
             wReq.Method = "POST";
             wReq.ContentType = "application/x-www-form-urlencoded";
             wReq.ContentLength = byteArray.Length;
+            wReq.ClientCertificates.Add(cert); 
             Stream dataStream = wReq.GetRequestStream();
              
             dataStream.Write(byteArray, 0, byteArray.Length); 
@@ -76,5 +83,10 @@ namespace Wx.Extend
             }
             return result;
         }
+
+        private static bool CheckValidationResult(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            if (errors == SslPolicyErrors.None) return true; return false;
+        } 
     }
 }

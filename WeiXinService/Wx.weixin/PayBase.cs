@@ -7,7 +7,7 @@ using Wx.Extend;
 
 namespace Wx.Weixin
 {
-    private sealed class PayBase
+    internal sealed class PayBase
     {
       
         public string Pay(Dictionary<string, string> dic,string url)
@@ -22,7 +22,7 @@ namespace Wx.Weixin
             dic.Add("client_ip",Api.MachineIp);
 
             //创建签名
-            string strA = _PerParam(dic) + "&key=";
+            string strA = _PerParam(dic) + "&key="+Api.SecretKey;
             string sign = strA.ToMd5().ToUpper();
             dic.Add("sign", sign);
             
@@ -30,6 +30,27 @@ namespace Wx.Weixin
             var postData = _DicToXmlStr(dic);
            return new WebHttp().WebPostSSL(url, postData,Api.CertPath,Api.CertPassword);
            
+        }
+
+        public string SignTest(Dictionary<string, string> dic, string url)
+        {
+            var nonce = _Nonce();
+
+            dic.Add("nonce_str", nonce);
+            dic.Add("mch_billno", _OrderNo());
+            dic.Add("mch_id", Api.MchId);
+            dic.Add("wxappid", Api.Appid);
+            dic.Add("send_name", Api.MchName);
+            dic.Add("client_ip", Api.MachineIp);
+
+            //创建签名
+            string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
+            string sign = strA.ToMd5().ToUpper();
+            dic.Add("sign", sign);
+
+
+            return sign;
+
         }
 
         private string _PerParam(Dictionary<string, string> Param)

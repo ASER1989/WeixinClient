@@ -25,6 +25,8 @@ namespace Wx.Weixin
         private static readonly string certPassword = appConfig["_cret_password"];//证书密码
         private static readonly string mchId = appConfig["_mch_id"];//商户号
         private static readonly string mchName = appConfig["_mch_name"];//商户名称
+        private static readonly string secretKey = appConfig["_secret_key"];//api密钥
+
         
 
         /// <summary>
@@ -82,6 +84,14 @@ namespace Wx.Weixin
         public static string MachineIp {
             get { return (CacheApi.Get(ip_key) ?? _GetAddressIP()).ToString(); }
         }
+
+        /// <summary>
+        /// API密钥
+        /// </summary>
+        public static string SecretKey {
+            get { return secretKey; }
+        }
+             
 
         private static void _setToken(string token, int expTime)
         {
