@@ -15,12 +15,17 @@ namespace Wx.Weixin
     {
        private static  NameValueCollection appConfig = System.Configuration.ConfigurationManager.AppSettings;
 
-        private static readonly string token_key = "_icache_token_key_x80e";
+       private static readonly string token_key = "_icache_token_key_x80e";
+       private static readonly string ip_key = "_icache_Ip_key_xE0A";
+
         private static readonly string appid = appConfig["_appkey"];  //"wxf07c08710f813ad4";
         private static readonly string appsec = appConfig["_appsec"];// "a2f116467862a1b5625dff0466d05275";
 
         private static readonly string certPath = appConfig["_cret_path"];//证书安装路径
         private static readonly string certPassword = appConfig["_cret_password"];//证书密码
+        private static readonly string mchId = appConfig["_mch_id"];//商户号
+        private static readonly string mchName = appConfig["_mch_name"];//商户名称
+        
 
         /// <summary>
         /// 当前有效token
@@ -44,14 +49,38 @@ namespace Wx.Weixin
         {
             get { return appsec; }
         }
-
+        /// <summary>
+        /// 证书路径
+        /// </summary>
         public static string CertPath
         {
             get { return certPath; }
         }
-
+        /// <summary>
+        /// 证书密码
+        /// </summary>
         public static string CertPassword {
             get { return certPassword; }
+        }
+
+        /// <summary>
+        /// 商户号
+        /// </summary>
+        public static string MchId {
+            get { return mchId; }
+        }
+
+        /// <summary>
+        /// 商户名称
+        /// </summary>
+        public static string MchName {
+            get { return mchName; }
+        }
+        /// <summary>
+        /// 本机IP地址
+        /// </summary>
+        public static string MachineIp {
+            get { return (CacheApi.Get(ip_key) ?? _GetAddressIP()).ToString(); }
         }
 
         private static void _setToken(string token, int expTime)
@@ -77,6 +106,21 @@ namespace Wx.Weixin
             _setToken(res.access_token, res.expires_in - 120);
             return res.access_token;
 
+        }
+
+        private static string _GetAddressIP()
+        {
+            ///获取本地的IP地址
+            string AddressIP = string.Empty;
+            foreach (IPAddress _IPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+            {
+                if (_IPAddress.AddressFamily.ToString() == "InterNetwork")
+                {
+                    AddressIP = _IPAddress.ToString();
+                }
+            }
+            CacheApi.Set(ip_key, AddressIP);
+            return AddressIP;
         }
 
         private class TokenModel

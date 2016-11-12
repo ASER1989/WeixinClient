@@ -66,5 +66,17 @@ namespace Wx.Client.Controllers
             return resStr;
         }
 
+
+        public ActionResult RedPackTest() {
+            string packRes = "哈哈~，你不在白名单内！";
+            if (SessionCore.OpenId == "oK8WAt8VieVye7PJW41kU9oW_vH0")
+            {
+                 packRes = new RedPack().SendReadPack(SessionCore.OpenId, 100);
+            }
+           
+            TempData["res"] = packRes;
+            return View();
+        }
+
     }
 }

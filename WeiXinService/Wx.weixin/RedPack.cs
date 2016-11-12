@@ -2,86 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Wx.Extend;
 
 namespace Wx.Weixin
 {
     public class RedPack
     {
-      
-        public void Pay(Dictionary<string, string> dic,string url)
+        public string SendReadPack(string openid,int amount)
         {
-            var nonce = _Nonce();
-             
-            dic.Add("nonce_str", nonce);
+            //请求路径
+            string url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack";
 
-            //创建签名
-            string strA = _PerParam(dic) + "&key=";
-            string sign = strA.ToMd5().ToUpper();
-            dic.Add("sign", sign);
+            //参数配置
+            var dic = new Dictionary<string, string>();
+            dic.Add("re_openid", openid); //接受人openid
+            dic.Add("total_amount", amount.ToString()); //红包里装的毛爷爷（单位：分）
+            dic.Add("total_num","1");//红包发放数量（默认：1，暂不支持修改）
+            dic.Add("wishing","老板发大财！");//红包祝福语（暂未自定义）
+            dic.Add("act_name", "红包测试，中饱私囊"); //活动名称
+            dic.Add("remark", "JSON你懂吗？");//备注
+            return new PayBase().Pay(dic, url);
 
-            var postData = _DicToXmlStr(dic);
-            new WebHttp().WebPostSSL(url, postData,Api.CertPath,Api.CertPassword);
-           
-        }
-
-        private string _PerParam(Dictionary<string, string> Param)
-        {
-            var list = Param.OrderBy(s => s.Key);
-            StringBuilder param = new StringBuilder();
-            foreach (var s in list)
-               param.Append(s.Key).Append("=").Append(s.Value).Append("&");
-
-            var resStr = param.ToString().Trim(new char[] { '&' });
-            return resStr;
-        }
-
-        /// <summary>
-        /// Dictionary转换为Xml格式字符串
-        /// </summary>
-        /// <param name="dic"></param>
-        /// <returns></returns>
-        private string _DicToXmlStr(Dictionary<string, string> dic) {
-            StringBuilder xml = new StringBuilder();
-            xml.Append("<xml>");
-
-            foreach (var item in dic)
-            {
-                xml.Append("<").Append(item.Key).Append(">");
-                xml.Append("<![CDATA[").Append(item.Value).Append("]]>");
-                xml.Append("</").Append(item.Key).Append(">");
-            }
-            xml.Append("</xml>");
-            return xml.ToString();
-
-            //别问我为什么不用string+的形式，因为SB的效率高啊！
-        }
-        /// <summary>
-        /// 获取随机字符串
-        /// </summary>
-        public string _Nonce()
-        {
-            int number;
-            string checkCode = String.Empty;     //存放随机码的字符串   
-
-            var random = new Random();
-            int count = random.Next(23, 31);
-            for (int i = 0; i < count; i++) //产生4位校验码   
-            {
-                number = random.Next();
-                number = number % 36;
-                if (number < 10)
-                {
-                    number += 48;    //数字0-9编码在48-57   
-                }
-                else
-                {
-                    number += 55;    //字母A-Z编码在65-90   
-                }
-
-                checkCode += ((char)number).ToString();
-            }
-            return checkCode.ToUpper();
         }
     }
 }

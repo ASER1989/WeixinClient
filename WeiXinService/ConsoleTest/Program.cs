@@ -6,6 +6,7 @@ using System.Text;
 using Wx.Cache;
 using Wx.Weixin;
 using Wx.Extend;
+using System.Net;
 
 
 namespace ConsoleTest
@@ -14,8 +15,11 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
+
+            Console.WriteLine(GetAddressIP());
+
 retry:
-            var str = new RedPack()._Nonce();
+            var str = new PayBase()._Nonce();
             Console.WriteLine(str);
           
             var y = Console.ReadKey();
@@ -35,6 +39,20 @@ retry:
             //Console.WriteLine("==============================");
             //Console.Write(CacheApi.Get("test"));
             Console.ReadKey();
+        }
+
+        static string GetAddressIP()
+        {
+            ///获取本地的IP地址
+            string AddressIP = string.Empty;
+            foreach (IPAddress _IPAddress in Dns.GetHostEntry(Dns.GetHostName()).AddressList)
+            {
+                if (_IPAddress.AddressFamily.ToString() == "InterNetwork")
+                {
+                    AddressIP = _IPAddress.ToString();
+                }
+            }
+            return AddressIP;
         }
     }
 
