@@ -11,6 +11,12 @@ namespace Wx.Weixin
 {
     public class RedPack
     {
+        /// <summary>
+        /// 发送普通红包（同一openid不能短时间内连续发送，坑爹微信会提示签名错误。为此搞了好大半天。）
+        /// </summary>
+        /// <param name="openid"></param>
+        /// <param name="amount"></param>
+        /// <returns></returns>
         public RedPackBackModel SendReadPack(string openid, int amount)
         {
             //请求路径
