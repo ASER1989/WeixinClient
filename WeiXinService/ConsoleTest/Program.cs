@@ -17,12 +17,23 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            byte[] resByte = Encoding.Default.GetBytes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>");
-            resByte = Encoding.Convert(Encoding.Default, Encoding.GetEncoding("GBK"), resByte);
+
+            new RedPack().SendReadPack("t000t",1);
+
+            //using (var ms = new MemoryStream(Encoding.UTF8.GetBytes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>")))
+            //{
+            //    using (var sr = new StreamReader(ms, Encoding.UTF8))
+            //    {
+                    
+
+            //        Console.WriteLine(sr.ReadToEnd()); 
+            //    }
+            //}
+            //byte[] resByte = Encoding.Default.GetBytes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>");
+            //resByte = Encoding.Convert(Encoding.Default, Encoding.GetEncoding("GBK"), resByte);
 
 
 
-            Console.WriteLine(Encoding.Default.GetString(resByte)); 
 
             //var s = new RedPack().DecodeRes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>");
             //Console.WriteLine(s);

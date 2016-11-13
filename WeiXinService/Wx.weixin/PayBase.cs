@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -79,22 +80,10 @@ namespace Wx.Weixin
                 xml.Append("<![CDATA[").Append(item.Value).Append("]]>");
                 xml.Append("</").Append(item.Key).Append(">");
             }
-            xml.Append("</xml>");
-            //return xml.ToString();
+            xml.Append("</xml>"); 
 
             //别问我为什么不用string+的形式，因为SB的效率高啊！
 
-            try
-            {
-                byte[] resByte = Encoding.Default.GetBytes(xml.ToString());
-                resByte = Encoding.Convert(Encoding.Default, Encoding.GetEncoding("GBK"), resByte);
-
-                return Encoding.Default.GetString(resByte);
-            }
-            catch (Exception e)
-            {
-
-            }
             return xml.ToString();
         }
         /// <summary>
@@ -129,7 +118,7 @@ namespace Wx.Weixin
         /// 简易版订单号（当前时间毫秒的基础上加一位随机数）
         /// </summary>
         /// <returns></returns>
-        private static string _OrderNo(){
+        private string _OrderNo(){
             var time = DateTime.Now.ToString("HHmmssfff");
             time += new Random().Next(10).ToString();
             return Api.MchId+DateTime.Now.ToString("yyyyMMdd")+time;

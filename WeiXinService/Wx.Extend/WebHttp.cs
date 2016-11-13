@@ -54,20 +54,13 @@ namespace Wx.Extend
 
             string result = null;
 
-            //CerPath证书路径
-            //string certPath = ConfigurationManager.AppSettings["certPath"].ToString();
-            ////证书密码
-            //string password = ConfigurationManager.AppSettings["password"].ToString();
             X509Certificate2 cert = new System.Security.Cryptography.X509Certificates.X509Certificate2(certPath, password, X509KeyStorageFlags.MachineKeySet);
 
-            //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult); 
-            //X509Certificate cer = new X509Certificate(certPath, password);
-
-            //System.Net.WebRequest wReq = System.Net.WebRequest.Create(uri);
             HttpWebRequest wReq = (HttpWebRequest)HttpWebRequest.Create(uri); 
             var byteArray = Encoding.UTF8.GetBytes(data);
             wReq.Method = "POST";
             wReq.ContentType = "application/x-www-form-urlencoded";
+            wReq.ContentType = "text/html; charset=utf-8";
             wReq.ContentLength = byteArray.Length;
             wReq.ClientCertificates.Add(cert); 
             Stream dataStream = wReq.GetRequestStream();
