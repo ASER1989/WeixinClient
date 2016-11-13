@@ -127,6 +127,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="Res\Data\whitelist.txt" />
     <Content Include="Res\Scripts\jquery.js" />
     <Content Include="Res\Scripts\underscore.js" />
     <Content Include="Web.config" />

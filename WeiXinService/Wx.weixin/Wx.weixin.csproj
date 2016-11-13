@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api.cs" />
+    <Compile Include="ApiModels\RedPackBackModel.cs" />
     <Compile Include="ApiModels\RedPackModel.cs" />
     <Compile Include="ApiModels\SendMsgModel.cs" />
     <Compile Include="ApiUrl.cs" />

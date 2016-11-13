@@ -7,6 +7,8 @@ using Wx.Cache;
 using Wx.Weixin;
 using Wx.Extend;
 using System.Net;
+using System.Web.Script;
+using System.Web.Script.Serialization;
 
 
 namespace ConsoleTest
@@ -15,8 +17,14 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
+            var list = new List<string>();
+            list.Add("tttt");
+            list.Add("ooo");
+            Console.WriteLine(new JavaScriptSerializer().Serialize(list));
 
-            Console.WriteLine(new RedPack().SendReadPack("oK8WAt8VieVye7PJW41kU9oW_vH0",1));
+            //var s = new RedPack().DecodeRes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>");
+            //Console.WriteLine(s);
+            //Console.WriteLine(new RedPack().SendReadPack("oK8WAt8VieVye7PJW41kU9oW_vH0",1));
 
 retry:
             //var str = new PayBase()._Nonce();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,7 +23,8 @@ namespace Wx.Client.Controllers
             return echostr;
         }
 
-        public ActionResult MyHome() {
+        public ActionResult MyHome()
+        {
             var opt = new UserManage();
             var openid = SessionCore.OpenId;
             string userInfo = opt.GetUserInfo(openid);
@@ -31,7 +33,8 @@ namespace Wx.Client.Controllers
         }
 
 
-        public ActionResult Index() {
+        public ActionResult Index()
+        {
             var opt = new UserManage();
             var openid = SessionCore.OpenId;
             string userInfo = opt.GetUserInfo(openid);
@@ -67,18 +70,80 @@ namespace Wx.Client.Controllers
         }
 
 
-        public ActionResult RedPackTest() {
+        public ActionResult RedPackTest()
+        {
             string packRes = "哈哈~，你不在白名单内！";
-            if (SessionCore.OpenId == "oK8WAt8VieVye7PJW41kU9oW_vH0")
+            var whitelist = GetWhiteList();
+            if (whitelist.Contains(SessionCore.OpenId))
             {
-                 packRes = new RedPack().SendReadPack(SessionCore.OpenId, 100);
+                if (DataTest(SessionCore.OpenId))
+                {
+                    var res = new RedPack().SendReadPack(SessionCore.OpenId, 100);
+                    if (res.return_code == "" && res.result_code == "")
+                    {
+                        packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者，";
+                    }
+                    else if (res.result_code == "NOTENOUGH")
+                    {
+                        packRes = "活动已结束！";
+                    }
+                    else
+                    {
+                        new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + SessionCore.OpenId);
+                    }
+                }
+                else
+                {
+                    packRes = "没有行贿只能领一次哦！";
+                }
             }
-           
+
             TempData["res"] = packRes;
             return View();
         }
 
-      
+        private List<string> GetWhiteList()
+        {
+
+            string filepath = Server.MapPath("/Res/Data/whitelist.txt");
+            string txt = Cache.CacheApi.Get("_white_list").ObjToString() ?? System.IO.File.ReadAllText(filepath);
+            Cache.CacheApi.Set("_white_list", txt);
+
+            return new JavaScriptSerializer().Deserialize<List<string>>(txt);
+        }
+        private bool DataTest(string openid)
+        {
+            string filepath = Server.MapPath("/Res/Data/json.txt");
+            var js = new JavaScriptSerializer();
+            if (!System.IO.File.Exists(filepath))
+            {
+                List<DataTestModel> dt = new List<DataTestModel>();
+                dt.Add(new DataTestModel() { Openid = openid });
+                var txt = js.Serialize(dt);
+                System.IO.File.WriteAllText(filepath, txt);
+            }
+            else
+            {
+                string json = System.IO.File.ReadAllText(filepath);
+                var dt = js.Deserialize<List<DataTestModel>>(json);
+                if (dt.Any(p => p.Openid == openid))
+                {
+                    return false;
+                }
+
+                dt.Add(new DataTestModel() { Openid = openid });
+                var txt = js.Serialize(dt);
+                System.IO.File.WriteAllText(filepath, txt);
+            }
+            return true;
+
+        }
+
+        private class DataTestModel
+        {
+            public string Openid { get; set; }
+            public string Key { get; set; }
+        }
 
     }
 }
