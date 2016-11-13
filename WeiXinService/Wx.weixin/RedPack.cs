@@ -21,9 +21,15 @@ namespace Wx.Weixin
             dic.Add("re_openid", openid); //接受人openid
             dic.Add("total_amount", amount.ToString()); //红包里装的毛爷爷（单位：分）
             dic.Add("total_num", "1");//红包发放数量（默认：1，暂不支持修改）
+
             dic.Add("wishing", "老板发大财！");//红包祝福语（暂未自定义）
-            dic.Add("act_name", "红包测试，中饱私囊"); //活动名称
+            dic.Add("act_name", "红包测试，中饱私囊行动"); //活动名称
             dic.Add("remark", "JSON你懂吗？");//备注
+
+            //dic.Add("wishing", "gei me money");//红包祝福语（暂未自定义）
+            //dic.Add("act_name", "read pack test"); //活动名称
+            //dic.Add("remark", "JSON down");//备注
+
             //return new PayBase().SignTest(dic, url);
 
             var resStr = new PayBase().Pay(dic, url);

@@ -80,9 +80,22 @@ namespace Wx.Weixin
                 xml.Append("</").Append(item.Key).Append(">");
             }
             xml.Append("</xml>");
-            return xml.ToString();
+            //return xml.ToString();
 
             //别问我为什么不用string+的形式，因为SB的效率高啊！
+
+            try
+            {
+                byte[] resByte = Encoding.Default.GetBytes(xml.ToString());
+                resByte = Encoding.Convert(Encoding.Default, Encoding.GetEncoding("GBK"), resByte);
+
+                return Encoding.Default.GetString(resByte);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return xml.ToString();
         }
         /// <summary>
         /// 获取随机字符串

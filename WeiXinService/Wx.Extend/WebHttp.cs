@@ -74,6 +74,7 @@ namespace Wx.Extend
              
             dataStream.Write(byteArray, 0, byteArray.Length); 
             dataStream.Close(); 
+            
 
             System.Net.WebResponse wResp = wReq.GetResponse();
             System.IO.Stream respStream = wResp.GetResponseStream();
