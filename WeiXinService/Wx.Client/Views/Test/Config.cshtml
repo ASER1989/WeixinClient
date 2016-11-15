@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Config</title>
+</head>
+<body>
+    <div>
+        <form action="/test/setconfig">
+            <input type="text" name="openid" value="" />
+            <input name="sub" type="submit" value="添加" />
+            <input name="sub" type="submit" value="删除" />
+        </form>
+      
+    </div>
+    <div id="content">
+        @TempData["data"]
+    </div>
+    
+</body>
+</html>
