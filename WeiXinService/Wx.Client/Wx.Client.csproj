@@ -172,6 +172,8 @@
     <Content Include="Views\Home\MyHome.cshtml" />
     <Content Include="Views\Home\RedPackTest.cshtml" />
     <Content Include="Views\Test\QrTest.cshtml" />
+    <Content Include="Views\Test\Config.cshtml" />
+    <Content Include="Views\Test\index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
