@@ -17,5 +17,13 @@ namespace Wx.Extend
             get { return HttpContext.Current.Session["_open_id"].ObjToString(); }
         }
 
+        public static void Set(string key, object value) {
+            HttpContext.Current.Session[key] = value;
+        }
+
+        public static object Get(string key) {
+            return HttpContext.Current.Session[key];
+        }
+
     }
 }

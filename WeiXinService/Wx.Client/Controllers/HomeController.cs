@@ -84,7 +84,7 @@ namespace Wx.Client.Controllers
                     {
                         packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者.";
                         AddRedPackLog(SessionCore.OpenId);
-                        new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId+":领钱成功。");
+                        new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。"+DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
                     }
                     else if (res.result_code == "NOTENOUGH")
                     {
@@ -92,8 +92,8 @@ namespace Wx.Client.Controllers
                     }
                     else
                     {
-                        new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + SessionCore.OpenId);
-                        packRes = "你没收到老板发的红包，因为作者写的代码有点bug! bug已发送给作者，他会改好的。";
+                        new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res)+"      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                        packRes = "网络故障，请稍后再试！";
                     }
                 }
                 else

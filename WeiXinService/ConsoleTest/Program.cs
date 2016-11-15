@@ -9,6 +9,7 @@ using Wx.Extend;
 using System.Net;
 using System.Web.Script;
 using System.Web.Script.Serialization;
+using System.Security.Cryptography;
 
 
 namespace ConsoleTest
@@ -18,48 +19,56 @@ namespace ConsoleTest
         static void Main(string[] args)
         {
 
-            new RedPack().SendReadPack("t000t",1);
-
-            //using (var ms = new MemoryStream(Encoding.UTF8.GetBytes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>")))
-            //{
-            //    using (var sr = new StreamReader(ms, Encoding.UTF8))
-            //    {
-                    
-
-            //        Console.WriteLine(sr.ReadToEnd()); 
-            //    }
-            //}
-            //byte[] resByte = Encoding.Default.GetBytes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>");
-            //resByte = Encoding.Convert(Encoding.Default, Encoding.GetEncoding("GBK"), resByte);
 
 
+            var dic = new Dictionary<string, string>();
+            dic.Add("re_openid", "oK8WAt8VieVye7PJW41kU9oW_vH0"); //接受人openid
+            dic.Add("total_amount", "100"); //红包里装的毛爷爷（单位：分）
+            dic.Add("total_num", "1");//红包发放数量（默认：1，暂不支持修改）
 
+            dic.Add("wishing", "老板发大财！");//红包祝福语（暂未自定义）
+            dic.Add("act_name", "红包测试行动"); //活动名称
+            dic.Add("remark", "JSON你懂吗？");//备注
 
-            //var s = new RedPack().DecodeRes("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[发放成功.]]></return_msg><result_code><![CDATA[SUCCESS]]></result_code><err_code><![CDATA[0]]></err_code><err_code_des><![CDATA[发放成功.]]></err_code_des><mch_billno><![CDATA[0010010404201411170000046545]]></mch_billno><mch_id>10010404</mch_id><wxappid><![CDATA[wx6fa7e3bab7e15415]]></wxappid><re_openid><![CDATA[onqOjjmM1tad-3ROpncN-yUfa6uI]]></re_openid><total_amount>1</total_amount></xml>");
-            //Console.WriteLine(s);
-            //Console.WriteLine(new RedPack().SendReadPack("oK8WAt8VieVye7PJW41kU9oW_vH0",1));
+            dic.Add("nonce_str", "PYDX4JFQ4W9JPF7YAAMPIT9Q77");
+            dic.Add("mch_billno", "1405750202201611151415475244");
+            dic.Add("mch_id", Api.MchId);
+            dic.Add("wxappid", Api.Appid);
+            dic.Add("send_name", Api.MchName);
+            dic.Add("client_ip", "169.254.197.92");
+            string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
+            string sign = strA.ToMd5().ToUpper();
 
-retry:
-            //var str = new PayBase()._Nonce();
-            //Console.WriteLine(str);
-          
-            var y = Console.ReadKey();
-            if (y.KeyChar.ToString() == "y") {
-                goto retry;
-            }
-            //var res = new UserManage().GetUserList();
-            //var t = Wx.Weixin.Api.Token;
-            //new MessageManage().SendTextMsg("osObDvmhRn7lIbpRRINNZJvN-WJ4", "this is a test msg!");
-            //var res = Url.Encode("");
-            //Console.WriteLine(t);
-            //Console.ReadKey();
-            //Console.WriteLine("==============================");
-            //CacheApi.Set("test01", "ttt", 1);
-            ////Console.WriteLine(t);
-            //Console.ReadKey();
-            //Console.WriteLine("==============================");
-            //Console.Write(CacheApi.Get("test"));
+            var d = md5(strA);
+            Console.WriteLine(sign);
+
             Console.ReadKey();
+        }
+
+        public static String md5(String s)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(s);
+            bytes = md5.ComputeHash(bytes);
+            md5.Clear();
+
+            string ret = "";
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                ret += Convert.ToString(bytes[i], 16).PadLeft(2, '0');
+            }
+
+            return ret.PadLeft(32, '0');
+        }
+        static string _PerParam(Dictionary<string, string> Param)
+        {
+            var list = Param.OrderBy(s => s.Key);
+            StringBuilder param = new StringBuilder();
+            foreach (var s in list)
+               param.Append(s.Key).Append("=").Append(s.Value).Append("&");
+
+            var resStr = param.ToString().Trim(new char[] { '&' });
+            return resStr;
         }
 
         static string GetAddressIP()

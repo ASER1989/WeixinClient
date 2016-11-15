@@ -22,21 +22,28 @@ namespace Wx.Extend
             return defaultVal;
         }
 
+        /// <summary>
+        /// 转换为32位MD5
+        /// <para>
+        /// 事实告诉我们，MD5很重要，因为有的时候未必是32位。
+        /// </para>
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static string ToMd5(this string str)
-        { 
-            MD5 md5 = MD5.Create();
-            byte[] s = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
-            var result = "";
-            // 通过使用循环，将字节类型的数组转换为字符串，此字符串是常规字符格式化所得
-            for (int i = 0; i < s.Length; i++)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(str);
+            bytes = md5.ComputeHash(bytes);
+            md5.Clear();
+
+            string ret = "";
+            for (int i = 0; i < bytes.Length; i++)
             {
-                // 将得到的字符串使用十六进制类型格式。格式后的字符是小写的字母，如果使用大写（X）则格式后的字符是大写字符
-
-                result = result + s[i].ToString("X");
-
+                ret += Convert.ToString(bytes[i], 16).PadLeft(2, '0');
             }
-            return result;
-            //return BitConverter.ToString(s).Replace("-", ""); 
+
+            return ret.PadLeft(32, '0');
             
         }
 

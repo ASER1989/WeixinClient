@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using Wx.Extend;
+using System.Web.Script.Serialization;
 
 namespace Wx.Weixin
 {
@@ -29,6 +30,7 @@ namespace Wx.Weixin
             
 
             var postData = _DicToXmlStr(dic);
+            SessionCore.Set("reqDic", strA+"  sign:"+sign);
            return new WebHttp().WebPostSSL(url, postData,Api.CertPath,Api.CertPassword);
            
         }
