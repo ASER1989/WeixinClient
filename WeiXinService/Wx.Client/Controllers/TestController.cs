@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -66,6 +67,19 @@ namespace Wx.Client.Controllers
             System.IO.File.WriteAllText(filepath, txt);
             Cache.CacheApi.Remove("_white_list");
             return Redirect("/test/config");
+        }
+        public string CleanJson() { 
+            if (SessionCore.Get("_key_Password").ObjToString() != "今天天气不错！")
+            {
+                 Redirect("/test/index");
+                 return null;
+            }
+            string filepath = Server.MapPath("/Res/Data/json.txt");
+            string bakpath = Server.MapPath("/Res/Data/json_"+DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss")+"-bak.txt");
+            var txt =  System.IO.File.Exists(filepath)? System.IO.File.ReadAllText(filepath):"";
+            System.IO.File.WriteAllText(bakpath, txt);
+            System.IO.File.WriteAllText(filepath, "");
+            return "success!";
         }
         public string Clean()
         {
