@@ -12,7 +12,7 @@ using Wx.Weixin;
 
 namespace Wx.Client.Controllers
 {
-    [Login]
+    //[Login]
     public class HomeController : Controller
     {
         //
@@ -29,6 +29,8 @@ namespace Wx.Client.Controllers
             var openid = SessionCore.OpenId;
             string userInfo = opt.GetUserInfo(openid);
             TempData["userInfo"] = userInfo;
+            TempData["openid"] = SessionCore.OpenId;
+
             return View();
         }
 
@@ -69,7 +71,7 @@ namespace Wx.Client.Controllers
             return resStr;
         }
 
-
+        #region 普通红包
         public ActionResult RedPackTest()
         {
             string packRes = "哈哈~，你不在白名单内！";
@@ -77,13 +79,14 @@ namespace Wx.Client.Controllers
             if (whitelist.Contains(SessionCore.OpenId))
             {
                 //给别人关上一扇门，给自己打开一扇门。
-                if (SessionCore.OpenId == "oK8WAt8VieVye7PJW41kU9oW_vH0" || DataTest(SessionCore.OpenId))
+                string path = "/Res/Data/json.txt";
+                if (SessionCore.OpenId == "oK8WAt8VieVye7PJW41kU9oW_vH0" || DataTest(SessionCore.OpenId,path))
                 {
                     var res = new RedPack().SendReadPack(SessionCore.OpenId, 100);
                     if (res.return_code == "SUCCESS" && res.result_code == "SUCCESS")
                     {
                         packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者.";
-                        AddRedPackLog(SessionCore.OpenId);
+                        AddRedPackLog(SessionCore.OpenId,path);
                         new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
                     }
                     else if (res.result_code == "NOTENOUGH")
@@ -105,6 +108,49 @@ namespace Wx.Client.Controllers
             TempData["res"] = packRes;
             return View();
         }
+        #endregion
+
+        #region 口令红包
+        public ActionResult EncRedPack() {
+
+            return View();
+        
+        }
+        public JsonResult GetEncReadPack(string key) {
+            List<string> errorMsg = new List<string>() {"口令，错误！口令，错误！口令，错误！","再说不对口令就拉你进黑名单!","口令不正确，问问身边的朋友吧!","口令不对，不给红包！" };
+            if (key != "老板来个红包") { return Json(new { data = errorMsg[new Random().Next(4)] }, JsonRequestBehavior.AllowGet); }
+
+            //给别人关上一扇门，给自己打开一扇门。
+            string packRes = null;
+            string path = "/Res/Data/enc_json.txt";
+            if (SessionCore.OpenId == "oK8WAt8VieVye7PJW41kU9oW_vH0" || DataTest(SessionCore.OpenId, path))
+            {
+                var res = new RedPack().SendReadPack(SessionCore.OpenId, 100);
+                if (res.return_code == "SUCCESS" && res.result_code == "SUCCESS")
+                {
+                    packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者!";
+                    AddRedPackLog(SessionCore.OpenId,path);
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                }
+                else if (res.result_code == "NOTENOUGH")
+                {
+                    packRes = "活动已结束！";
+                }
+                else
+                {
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    packRes = "网络故障，请稍后再试！";
+                }
+            }
+            else
+            {
+                packRes = "没有行贿只能领一次哦！";
+            }
+
+            return Json(new { data = packRes }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
 
         private List<string> GetWhiteList()
         {
@@ -116,9 +162,11 @@ namespace Wx.Client.Controllers
 
             return new JavaScriptSerializer().Deserialize<List<string>>(txt);
         }
-        private bool DataTest(string openid)
+        private bool DataTest(string openid,string path)
         {
-            string filepath = Server.MapPath("/Res/Data/json.txt");
+            //string filepath = Server.MapPath("/Res/Data/json.txt");
+            string filepath = Server.MapPath(path);
+
             var js = new JavaScriptSerializer();
             if (!System.IO.File.Exists(filepath))
             {
@@ -137,9 +185,9 @@ namespace Wx.Client.Controllers
             return true;
 
         }
-        private void AddRedPackLog(string openid)
+        private void AddRedPackLog(string openid,string path)
         {
-            string filepath = Server.MapPath("/Res/Data/json.txt");
+            string filepath = Server.MapPath(path);
             var js = new JavaScriptSerializer();
             if (!System.IO.File.Exists(filepath))
             {

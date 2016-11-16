@@ -128,8 +128,12 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
     <Content Include="Res\Data\whitelist.txt" />
+    <Content Include="Res\Img\redpack.png" />
     <Content Include="Res\Scripts\jquery.js" />
+    <Content Include="Res\Scripts\require.js" />
     <Content Include="Res\Scripts\underscore.js" />
+    <Content Include="Res\Scripts\zepto.js" />
+    <Content Include="Res\Scripts\zoom.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -174,6 +178,7 @@
     <Content Include="Views\Test\QrTest.cshtml" />
     <Content Include="Views\Test\Config.cshtml" />
     <Content Include="Views\Test\index.cshtml" />
+    <Content Include="Views\Home\EncRedPack.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

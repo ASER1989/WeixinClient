@@ -14,12 +14,24 @@ namespace Wx.Client.Controllers
         //
         // GET: /Test/
 
-        public ActionResult QrTest()
+        public ActionResult QrTest(int id=0)
         {
-            string fileName = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff").ToMd5() + ".jpg";
-            new Qrcode().SaveQrcode("http://wx.ahyunhe.com/home/RedPackTest", Server.MapPath("/Res/Links") + "/" + fileName);
-            TempData["img"] = "/Res/Links/" + fileName;
+            string url ="http://wx.ahyunhe.com/home/RedPackTest";
+            string key = "_red_pack_test";
+            if (id == 1900) {
+                url = "http://wx.ahyunhe.com/home/EncRedPack";
+                key = "_enc_red_pack";
+            }
+            var img = Cache.CacheApi.Get(key)?? _GetQrUrl(url);
+            Cache.CacheApi.Set(key,img);
+            TempData["img"] = img;
             return View();
+        }
+
+        private string _GetQrUrl(string url) {
+            string fileName = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff").ToMd5() + ".jpg";
+            new Qrcode().SaveQrcode(url, Server.MapPath("/Res/Links") + "/" + fileName);
+            return "/Res/Links/" + fileName;
         }
 
         public ActionResult index(string pwd)
