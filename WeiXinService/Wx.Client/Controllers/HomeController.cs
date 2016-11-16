@@ -12,7 +12,7 @@ using Wx.Weixin;
 
 namespace Wx.Client.Controllers
 {
-    //[Login]
+    [Login]
     public class HomeController : Controller
     {
         //
