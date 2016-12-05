@@ -32,5 +32,20 @@ namespace Wx.Weixin.ApiModels
         public string re_openid { get; set; }
 
         public string total_amount { get; set; }
+
+        //转账部分
+        public string mch_appid { get; set; }
+
+        public string mchid { get; set; }
+
+        public string device_info { get; set; }
+
+        public string partner_trade_no { get; set; }
+
+        public string payment_no { get; set; }
+
+        public string payment_time { get; set; }
+        
+
     }
 }

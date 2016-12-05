@@ -152,6 +152,49 @@ namespace Wx.Client.Controllers
 
         #endregion
 
+        #region 口令转账
+        public ActionResult EncTransfer()
+        {
+
+            return View();
+
+        }
+        public JsonResult GetEncTransfer(string key)
+        {
+            List<string> errorMsg = new List<string>() { "口令，错误！口令，错误！口令，错误！", "再说不对口令就拉你进黑名单!", "口令不正确，问问身边的朋友吧!", "口令不对，不给红包！" };
+            if (key != "老板来个红包") { return Json(new { data = errorMsg[new Random().Next(4)] }, JsonRequestBehavior.AllowGet); }
+
+            //给别人关上一扇门，给自己打开一扇门。
+            string packRes = null;
+            string path = "/Res/Data/enc_transfer_json.txt";
+            if (SessionCore.OpenId == "oK8WAt8VieVye7PJW41kU9oW_vH0" || DataTest(SessionCore.OpenId, path))
+            {
+                var res = new RedPack().Transfer(SessionCore.OpenId, 100,"企业转账测试！");
+                if (res.return_code == "SUCCESS" && res.result_code == "SUCCESS")
+                {
+                    packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者!";
+                    AddRedPackLog(SessionCore.OpenId, path);
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                }
+                else if (res.result_code == "NOTENOUGH")
+                {
+                    packRes = "活动已结束！";
+                }
+                else
+                {
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    packRes = "网络故障，请稍后再试！";
+                }
+            }
+            else
+            {
+                packRes = "没有行贿只能领一次哦！";
+            }
+
+            return Json(new { data = packRes }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
         private List<string> GetWhiteList()
         {
 

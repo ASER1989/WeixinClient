@@ -129,6 +129,7 @@
     <Content Include="Global.asax" />
     <Content Include="Res\Data\whitelist.txt" />
     <Content Include="Res\Img\loading.png" />
+    <Content Include="Res\Img\money.png" />
     <Content Include="Res\Img\redpack.png" />
     <Content Include="Res\Scripts\jquery.js" />
     <Content Include="Res\Scripts\require.js" />
@@ -180,6 +181,7 @@
     <Content Include="Views\Test\Config.cshtml" />
     <Content Include="Views\Test\index.cshtml" />
     <Content Include="Views\Home\EncRedPack.cshtml" />
+    <Content Include="Views\Home\EncTransfer.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

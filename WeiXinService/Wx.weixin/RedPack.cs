@@ -38,6 +38,29 @@ namespace Wx.Weixin
 
         }
 
+        public RedPackBackModel Transfer(string openid, int amount,string remark)
+        {
+            //请求路径
+            string url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+
+            //参数配置
+            var dic = new Dictionary<string, string>();
+            dic.Add("openid", openid); //接受人openid
+            dic.Add("amount", amount.ToString()); //红包里装的毛爷爷（单位：分）
+            dic.Add("check_name", "NO_CHECK");//红包发放数量（默认：1，暂不支持修改）
+            dic.Add("desc", remark);//红包发放数量（默认：1，暂不支持修改）
+            
+            
+
+            //dic.Add("wishing", "老板发大财！");//红包祝福语（暂未自定义）
+            //dic.Add("act_name", "红包测试行动"); //活动名称
+            //dic.Add("remark", "JSON你懂吗？");//备注
+
+            var resStr = new PayBase().Transfer(dic, url);
+
+            return _DecodeXml(resStr);
+
+        }
         private RedPackBackModel _DecodeXml(string xml)
         {
             xml = xml.Replace("<xml>", "<xml><root>").Replace("<xml>", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>").Replace("</xml>", "</root></xml>").Replace("</xml>", "");
