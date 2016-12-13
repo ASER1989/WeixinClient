@@ -103,5 +103,9 @@ namespace Wx.Client.Controllers
             return Cache.CacheApi.Get("_white_list").ObjToString();
         }
 
+        public ActionResult Debugger() {
+            SessionCore.OpenId = "oK8WAt8VieVye7PJW41kU9oW_vH0";
+            return Redirect("/home/index");
+        }
     }
 }

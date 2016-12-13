@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\AuthController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Filter\LoginFilter.cs" />
@@ -153,8 +154,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Wx.cache\Wx.Cache.csproj">
-      <Project>{9b1720f3-5e58-4c20-b102-a22aaa6f7db5}</Project>
+    <ProjectReference Include="..\Wx.Cache\Wx.Cache.csproj">
+      <Project>{2e2ee331-54aa-4d20-87ed-df7f744d3f52}</Project>
       <Name>Wx.Cache</Name>
     </ProjectReference>
     <ProjectReference Include="..\Wx.Extend\Wx.Extend.csproj">
@@ -182,6 +183,8 @@
     <Content Include="Views\Test\index.cshtml" />
     <Content Include="Views\Home\EncRedPack.cshtml" />
     <Content Include="Views\Home\EncTransfer.cshtml" />
+    <Content Include="Views\Demo\EncRPack.cshtml" />
+    <Content Include="Views\Demo\EncTransfer.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
