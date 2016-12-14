@@ -12,7 +12,13 @@ namespace Wx.Weixin
     internal sealed class PayBase
     {
       
-        public string Pay(Dictionary<string, string> dic,string url)
+        /// <summary>
+        /// 发红包
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public string RedPack(Dictionary<string, string> dic,string url)
         {
             var nonce = _Nonce();
              
@@ -62,26 +68,32 @@ namespace Wx.Weixin
         
         }
 
-        //public string SignTest(Dictionary<string, string> dic, string url)
-        //{
-        //    var nonce = _Nonce();
 
-        //    dic.Add("nonce_str", nonce);
-        //    dic.Add("mch_billno", _OrderNo());
-        //    dic.Add("mch_id", Api.MchId);
-        //    dic.Add("wxappid", Api.Appid);
-        //    dic.Add("send_name", Api.MchName);
-        //    dic.Add("client_ip", Api.MachineIp);
+        public string CreateOrder(string ip,string url) {
+            var dic = new Dictionary<string, string>();
+            var nocestr= _Nonce();
+            var orderNo = _OrderNo();
+            dic.Add("appid",Api.Appid);
+            dic.Add("mch_id",Api.MchId);
+            dic.Add("nonce_str",nocestr);
+            dic.Add("out_trade_no",orderNo);
+            dic.Add("total_fee","");
+            dic.Add("body","");
+            dic.Add("spbill_create_ip",ip);
+            dic.Add("notify_url","");
+            dic.Add("trade_type","JSAPI");
+            dic.Add("openid", SessionCore.OpenId);
+            dic.Add("detail", "");
 
-        //    //创建签名
-        //    string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
-        //    string sign = strA.ToMd5().ToUpper();
-        //    dic.Add("sign", sign);
+            string sign = _PerParam(dic).ToMd5().ToUpper();
+            dic.Add("sign", sign);
+            var postData = _DicToXmlStr(dic);
+
+            return new WebHttp().WebPost(url, postData);
+
+        }
 
 
-        //    return sign;
-
-        //}
 
         private string _PerParam(Dictionary<string, string> Param)
         {

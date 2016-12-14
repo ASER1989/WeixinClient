@@ -32,7 +32,7 @@ namespace Wx.Weixin
             dic.Add("act_name", "红包测试行动"); //活动名称
             dic.Add("remark", "JSON你懂吗？");//备注
 
-            var resStr = new PayBase().Pay(dic, url);
+            var resStr = new PayBase().RedPack(dic, url);
 
             return _DecodeXml(resStr);
 
