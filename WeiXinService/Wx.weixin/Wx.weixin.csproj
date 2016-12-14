@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api.cs" />
+    <Compile Include="Base\Api.cs" />
     <Compile Include="ApiModels\goods_detail.cs" />
     <Compile Include="ApiModels\RedPackBackModel.cs" />
     <Compile Include="ApiModels\RedPackModel.cs" />
@@ -50,8 +50,9 @@
     <Compile Include="ApiUrl.cs" />
     <Compile Include="MessageManage.cs" />
     <Compile Include="JsSdk.cs" />
+    <Compile Include="OrderPay.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PayBase.cs" />
+    <Compile Include="Base\PayBase.cs" />
     <Compile Include="RedPack.cs" />
     <Compile Include="UserManage.cs" />
   </ItemGroup>

@@ -6,6 +6,8 @@ using System.Net;
 using System.Text;
 using Wx.Extend;
 using System.Web.Script.Serialization;
+using Wx.Weixin.ApiModels;
+
 
 namespace Wx.Weixin
 {
@@ -45,8 +47,10 @@ namespace Wx.Weixin
         /// 转账
         /// </summary>
         /// <returns></returns>
-        public string Transfer(Dictionary<string, string> dic, string url)
+        public string Transfer(Dictionary<string, string> dic)
         {
+            //请求路径
+            string url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
             var nonce = _Nonce();
 
             dic.Add("nonce_str", nonce);
@@ -69,7 +73,9 @@ namespace Wx.Weixin
         }
 
 
-        public string CreateOrder(string ip,string url) {
+        public string CreateOrder(string ip,List<goods_detail> detail) {
+            string url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            int amt = detail.Sum(p => p.price * p.quantity);
             var dic = new Dictionary<string, string>();
             var nocestr= _Nonce();
             var orderNo = _OrderNo();
@@ -77,22 +83,47 @@ namespace Wx.Weixin
             dic.Add("mch_id",Api.MchId);
             dic.Add("nonce_str",nocestr);
             dic.Add("out_trade_no",orderNo);
-            dic.Add("total_fee","");
-            dic.Add("body","");
+            dic.Add("total_fee", amt.ToString());
+            dic.Add("body",Api.MchName+"-购物");
             dic.Add("spbill_create_ip",ip);
             dic.Add("notify_url","");
             dic.Add("trade_type","JSAPI");
             dic.Add("openid", SessionCore.OpenId);
-            dic.Add("detail", "");
+            dic.Add("detail", "{\"goods_detail\":"+detail.Serialize()+"}");
 
-            string sign = _PerParam(dic).ToMd5().ToUpper();
+            string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
+            string sign = strA.ToMd5().ToUpper();
             dic.Add("sign", sign);
             var postData = _DicToXmlStr(dic);
 
             return new WebHttp().WebPost(url, postData);
 
         }
+        public string CreateOrder(string ip,int amt,string callback)
+        {
+            string url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+            var dic = new Dictionary<string, string>();
+            var nocestr = _Nonce();
+            var orderNo = _OrderNo();
+            dic.Add("appid", Api.Appid);
+            dic.Add("mch_id", Api.MchId);
+            dic.Add("nonce_str", nocestr);
+            dic.Add("out_trade_no", orderNo);
+            dic.Add("total_fee", amt.ToString());
+            dic.Add("body", Api.MchName + "-购物");
+            dic.Add("spbill_create_ip", ip);
+            dic.Add("notify_url", callback);
+            dic.Add("trade_type", "JSAPI");
+            dic.Add("openid", SessionCore.OpenId);
 
+            string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
+            string sign = strA.ToMd5().ToUpper();
+            dic.Add("sign", sign);
+            var postData = _DicToXmlStr(dic);
+
+            return new WebHttp().WebPost(url, postData);
+
+        }
 
 
         private string _PerParam(Dictionary<string, string> Param)

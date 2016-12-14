@@ -40,8 +40,7 @@ namespace Wx.Weixin
 
         public RedPackBackModel Transfer(string openid, int amount,string remark)
         {
-            //请求路径
-            string url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+      
 
             //参数配置
             var dic = new Dictionary<string, string>();
@@ -56,7 +55,7 @@ namespace Wx.Weixin
             //dic.Add("act_name", "红包测试行动"); //活动名称
             //dic.Add("remark", "JSON你懂吗？");//备注
 
-            var resStr = new PayBase().Transfer(dic, url);
+            var resStr = new PayBase().Transfer(dic);
 
             return _DecodeXml(resStr);
 

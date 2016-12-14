@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using Wx.Extend;
+using Wx.Weixin;
 
 namespace Wx.Client.Controllers
 {
@@ -105,6 +106,7 @@ namespace Wx.Client.Controllers
 
         public ActionResult Debugger() {
             SessionCore.OpenId = "oK8WAt8VieVye7PJW41kU9oW_vH0";
+            new OrderPay().Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
             return Redirect("/home/index");
         }
     }
