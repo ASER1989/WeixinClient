@@ -10,7 +10,7 @@ using Wx.Weixin;
 
 namespace Wx.Client.Controllers
 {
-    [Login]
+    //[Login]
     public class DemoController : Controller
     {
 
@@ -99,6 +99,33 @@ namespace Wx.Client.Controllers
         }
 
         #endregion
+
+
+        #region jsApi
+        public JsonResult SdkConfig(string url)
+        {
+            var res = new JsSdk().GetConfig(url);
+            return Json(res, null, 0);
+        }
+        public ActionResult SdkTest()
+        {
+            var url = Request.Url.ToString(); 
+            url = url.IndexOf("#") > 0 ? url.Substring(0, url.IndexOf("#")) : url;
+            var res = new JsSdk().GetConfigDic(url);
+            TempData["appId"] = res["appId"];
+            TempData["timestamp"] = res["timestamp"];
+            TempData["nonceStr"] = res["nonceStr"];
+            TempData["signature"] = res["signature"];
+            TempData["url"] = url;
+            TempData["userIp"] = Request.ServerVariables.Get("Remote_Addr").ToString();
+            return View();
+        }
+        #endregion
+
+        public JsonResult Json(object data, string msg = "", int code = 0)
+        {
+            return Json(new { data = data, msg = msg, code = code }, JsonRequestBehavior.AllowGet);
+        }
         private List<string> GetWhiteList()
         {
 

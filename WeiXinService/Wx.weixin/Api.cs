@@ -16,6 +16,8 @@ namespace Wx.Weixin
        private static  NameValueCollection appConfig = System.Configuration.ConfigurationManager.AppSettings;
 
        private static readonly string token_key = "_icache_token_key_x80e";
+       private static readonly string ticket_key = "_icache_ticket_key_x80E";
+
        private static readonly string ip_key = "_icache_Ip_key_xE0A";
 
         private static readonly string appid = appConfig["_appkey"];  //"wxf07c08710f813ad4";
@@ -37,6 +39,10 @@ namespace Wx.Weixin
         {
             get { return (CacheApi.Get(token_key) ?? _GetToken()).ToString(); }
 
+        }
+
+        public static string Ticket {
+            get { return (CacheApi.Get(ticket_key) ?? _GetApiTicket()).ToString(); }
         }
         /// <summary>
         /// 当前账号appid
@@ -97,6 +103,10 @@ namespace Wx.Weixin
         {
             CacheApi.Set(token_key, token, expTime);
         }
+        private static void _setTicket(string ticket, int expTime)
+        {
+            CacheApi.Set(ticket_key, ticket, expTime);
+        }
         private static string _GetToken()
         {
             //string appid = "wx6cd10b08ec0441fb";
@@ -118,6 +128,22 @@ namespace Wx.Weixin
 
         }
 
+        public static string _GetApiTicket() {
+            string result = null; 
+            System.Net.WebRequest wReq = System.Net.WebRequest.Create("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+Token+"&type=jsapi");
+            System.Net.WebResponse wResp = wReq.GetResponse();
+            System.IO.Stream respStream = wResp.GetResponseStream();
+            using (System.IO.StreamReader reader = new System.IO.StreamReader(respStream, Encoding.GetEncoding("UTF-8")))
+            {
+                result = reader.ReadToEnd();
+            }
+
+            JavaScriptSerializer ser = new JavaScriptSerializer();
+            var res = ser.Deserialize<TicketModel>(result);
+            _setTicket(res.ticket, res.expires_in - 100);
+            return res.ticket;
+        }
+
         private static string _GetAddressIP()
         {
             ///获取本地的IP地址
@@ -136,6 +162,14 @@ namespace Wx.Weixin
         private class TokenModel
         {
             public string access_token { get; set; }
+            public int expires_in { get; set; }
+        }
+
+        private class TicketModel
+        {
+            public int errcode { get; set; }
+            public string errmsg { get; set; }
+            public string ticket { get; set; }
             public int expires_in { get; set; }
         }
     }

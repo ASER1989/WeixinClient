@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace Wx.Extend
 {
     public static class StringExtend
     {
-        public static string ObjToString(this object val, string defaultVal = null) {
+        public static string ObjToString(this object val, string defaultVal = null)
+        {
 
             try
             {
-                if (val != null) {
+                if (val != null)
+                {
                     return val.ToString();
                 }
             }
@@ -44,9 +47,35 @@ namespace Wx.Extend
             }
 
             return ret.PadLeft(32, '0');
-            
+
         }
 
+        public static string SHA1(this string text)
+        {
+            byte[] cleanBytes = Encoding.Default.GetBytes(text);
+            byte[] hashedBytes = System.Security.Cryptography.SHA1.Create().ComputeHash(cleanBytes);
+            return BitConverter.ToString(hashedBytes).Replace("-", "");
+        }
+
+        /// <summary>
+        /// 序列化
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string Serialize(this object obj)
+        {
+            return new JavaScriptSerializer().Serialize(obj);
+        }
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static T DeSerialize<T>(this string str)
+        {
+            return new JavaScriptSerializer().Deserialize<T>(str);
+        }
         public static string ToString(this DateTime? date, string part)
         {
             try

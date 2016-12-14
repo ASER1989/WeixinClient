@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>SdkTest</title>
+</head>
+<body>
+    <div>
+        @TempData["url"] 
+        @TempData["userIp"]
+        <div id="scanQRCode" style="width:160px; height:30px; background:blue;margin:auto;color:#ffffff;text-align:center;border-radius:5px;">打开扫一扫</div>
+    </div>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="~/Res/Scripts/zepto.js"></script>
+    <script src="~/Res/Scripts/require.js"></script>
+    <script type="text/javascript">
+        wx.config({
+            debug: false,
+            appId: '@TempData["appId"]',
+            timestamp: @TempData["timestamp"],
+            nonceStr: '@TempData["nonceStr"]',
+            signature: '@TempData["signature"]',
+            jsApiList: [
+              'checkJsApi',
+              'onMenuShareTimeline',
+              'onMenuShareAppMessage',
+              'onMenuShareQQ',
+              'onMenuShareWeibo',
+              'onMenuShareQZone',
+              'hideMenuItems',
+              'showMenuItems',
+              'hideAllNonBaseMenuItem',
+              'showAllNonBaseMenuItem',
+              'translateVoice',
+              'startRecord',
+              'stopRecord',
+              'onVoiceRecordEnd',
+              'playVoice',
+              'onVoicePlayEnd',
+              'pauseVoice',
+              'stopVoice',
+              'uploadVoice',
+              'downloadVoice',
+              'chooseImage',
+              'previewImage',
+              'uploadImage',
+              'downloadImage',
+              'getNetworkType',
+              'openLocation',
+              'getLocation',
+              'hideOptionMenu',
+              'showOptionMenu',
+              'closeWindow',
+              'scanQRCode',
+              'chooseWXPay',
+              'openProductSpecificView',
+              'addCard',
+              'chooseCard',
+              'openCard'
+            ]
+        });
+        wx.ready(function () {
+            document.querySelector('#scanQRCode').onclick = function () {
+                console.log(1);
+                console.log(wx);
+                wx.scanQRCode();
+            };
+        });
+    </script>
+</body>
+</html>

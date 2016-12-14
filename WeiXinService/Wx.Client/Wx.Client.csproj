@@ -185,6 +185,7 @@
     <Content Include="Views\Home\EncTransfer.cshtml" />
     <Content Include="Views\Demo\EncRPack.cshtml" />
     <Content Include="Views\Demo\EncTransfer.cshtml" />
+    <Content Include="Views\Demo\SdkTest.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
