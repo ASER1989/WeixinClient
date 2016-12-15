@@ -118,6 +118,11 @@ namespace Wx.Client.Controllers
             TempData["signature"] = res["signature"];
             TempData["url"] = url;
             TempData["userIp"] = Request.ServerVariables.Get("Remote_Addr").ToString();
+
+             var orderPay = new OrderPay();
+            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
+            var str = orderPay.GetJsConfig(perOrder.prepay_id,10);
+            TempData["payconfig"] = str.Serialize();
             return View();
         }
 
@@ -128,7 +133,7 @@ namespace Wx.Client.Controllers
         public JsonResult GetPayConfig() {
             var orderPay = new OrderPay();
             var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
-            var str = orderPay.GetJsConfig(perOrder.prepay_id);
+            var str = orderPay.GetJsConfig(perOrder.prepay_id,10);
             return Json(str, null);
         }
 

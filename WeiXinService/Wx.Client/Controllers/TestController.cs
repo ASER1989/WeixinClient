@@ -113,7 +113,7 @@ namespace Wx.Client.Controllers
             SessionCore.OpenId = "oK8WAt8VieVye7PJW41kU9oW_vH0";
             var orderPay = new OrderPay();
             var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
-            var str = orderPay.GetJsConfig(perOrder.prepay_id);
+            var str = orderPay.GetJsConfig(perOrder.prepay_id,10);
             Response.Write(str);
             Response.Write(Server.HtmlEncode(perOrder.Serialize()));
 

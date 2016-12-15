@@ -20,8 +20,8 @@ namespace Wx.Weixin
             return _DecodeXml(str);
         }
 
-        public object GetJsConfig(string perpay_id) {
-            return payBase.GetPayConfig(perpay_id);
+        public object GetJsConfig(string perpay_id,int amt) {
+            return payBase.GetPayConfig(perpay_id,amt);
         }
 
         private UnifiedorderModel _DecodeXml(string xml)

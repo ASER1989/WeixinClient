@@ -131,7 +131,7 @@ namespace Wx.Weixin
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public object GetPayConfig(string prepay_id)
+        public object GetPayConfig(string prepay_id,int amt)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             string nonce = _Nonce().ToLower();
@@ -148,7 +148,8 @@ namespace Wx.Weixin
                 nonceStr = nonce,
                 signType = "MD5",
                 package = prepay_id,
-                paySign = sign
+                paySign = sign,
+                total_fee=amt
             };
             return ret;
 
