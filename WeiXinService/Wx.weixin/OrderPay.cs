@@ -20,7 +20,7 @@ namespace Wx.Weixin
             return _DecodeXml(str);
         }
 
-        public string GetJsConfig(string perpay_id) {
+        public object GetJsConfig(string perpay_id) {
             return payBase.GetPayConfig(perpay_id);
         }
 

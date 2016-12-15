@@ -11,12 +11,16 @@
 </head>
 <body>
     <div>
-        @TempData["url"] 
+        @TempData["url"]
         @TempData["userIp"]
         <div id="scanQRCode" style="width:160px; height:30px; background:blue;margin:auto;color:#ffffff;text-align:center;border-radius:5px;">打开扫一扫</div>
-        <div id="orderpay" style="width:160px; height:30px; background:blue;margin:auto;color:#ffffff;text-align:center;border-radius:5px;">打开扫一扫</div>
-   
-     </div>
+        <br />
+        <div id="orderpay" style="width:160px; height:30px; background:blue;margin:auto;color:#ffffff;text-align:center;border-radius:5px;">支付一个</div>
+
+        <div id="info">
+
+        </div>
+    </div>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <script src="~/Res/Scripts/zepto.js"></script>
     <script src="~/Res/Scripts/require.js"></script>
@@ -66,6 +70,19 @@
               'openCard'
             ]
         });
+        var config = null;
+        $.get("/demo/GetPayConfig",function(data){
+            var info  = document.querySelector("#info");
+
+            config = data.data;
+            config.timestamp = Number(config.timestamp);
+            config.success=function(data){
+                info.innerHTML+="<br/>data:<br/>"+data;
+                alert("success");
+            }
+            info.innerHTML+=JSON.stringify(config);
+        });
+
         wx.ready(function () {
             document.querySelector('#scanQRCode').onclick = function () {
                 console.log(1);
@@ -74,14 +91,15 @@
             };
 
             document.querySelector("#orderpay").onclick=function(){
-                $.get("/demo/GetPayConfig",function(data){
-                    var config = JSON.parse(data.data);
-                    config.success=function(){
-                        alert("success");
-                    }
-                    wx.chooseWXPay(config);
 
-                });
+                try {
+                    wx.chooseWXPay(config);
+                } catch (e) {
+                    info.innerHTML+="<br/>data:<br/>"+JSON.stringify(e)+e.name+":"+e.message;
+                }
+
+
+
             }
         });
     </script>
