@@ -42,12 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiModels\UnifiedorderModel.cs" />
     <Compile Include="Base\Api.cs" />
     <Compile Include="ApiModels\goods_detail.cs" />
     <Compile Include="ApiModels\RedPackBackModel.cs" />
     <Compile Include="ApiModels\RedPackModel.cs" />
     <Compile Include="ApiModels\SendMsgModel.cs" />
     <Compile Include="ApiUrl.cs" />
+    <Compile Include="Base\ToolBase.cs" />
     <Compile Include="MessageManage.cs" />
     <Compile Include="JsSdk.cs" />
     <Compile Include="OrderPay.cs" />

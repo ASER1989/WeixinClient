@@ -11,36 +11,36 @@ using Wx.Weixin.ApiModels;
 
 namespace Wx.Weixin
 {
-    internal sealed class PayBase
+    internal sealed class PayBase : ToolBase
     {
-      
+
         /// <summary>
         /// 发红包
         /// </summary>
         /// <param name="dic"></param>
         /// <param name="url"></param>
         /// <returns></returns>
-        public string RedPack(Dictionary<string, string> dic,string url)
+        public string RedPack(Dictionary<string, string> dic, string url)
         {
             var nonce = _Nonce();
-             
+
             dic.Add("nonce_str", nonce);
             dic.Add("mch_billno", _OrderNo());
             dic.Add("mch_id", Api.MchId);
             dic.Add("wxappid", Api.Appid);
             dic.Add("send_name", Api.MchName);
-            dic.Add("client_ip",Api.MachineIp);
+            dic.Add("client_ip", Api.MachineIp);
 
             //创建签名
-            string strA = _PerParam(dic) + "&key="+Api.SecretKey;
+            string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
             string sign = strA.ToMd5().ToUpper();
             dic.Add("sign", sign);
-            
+
 
             var postData = _DicToXmlStr(dic);
-            SessionCore.Set("reqDic", strA+"  sign:"+sign);
-           return new WebHttp().WebPostSSL(url, postData,Api.CertPath,Api.CertPassword);
-           
+            SessionCore.Set("reqDic", strA + "  sign:" + sign);
+            return new WebHttp().WebPostSSL(url, postData, Api.CertPath, Api.CertPassword);
+
         }
 
         /// <summary>
@@ -69,27 +69,28 @@ namespace Wx.Weixin
             var postData = _DicToXmlStr(dic);
             SessionCore.Set("reqDic", strA + "  sign:" + sign);
             return new WebHttp().WebPostSSL(url, postData, Api.CertPath, Api.CertPassword);
-        
+
         }
 
-
-        public string CreateOrder(string ip,List<goods_detail> detail) {
+        #region 订单支付
+        public string CreateOrder(string ip, List<goods_detail> detail)
+        {
             string url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
             int amt = detail.Sum(p => p.price * p.quantity);
             var dic = new Dictionary<string, string>();
-            var nocestr= _Nonce();
+            var nocestr = _Nonce();
             var orderNo = _OrderNo();
-            dic.Add("appid",Api.Appid);
-            dic.Add("mch_id",Api.MchId);
-            dic.Add("nonce_str",nocestr);
-            dic.Add("out_trade_no",orderNo);
+            dic.Add("appid", Api.Appid);
+            dic.Add("mch_id", Api.MchId);
+            dic.Add("nonce_str", nocestr);
+            dic.Add("out_trade_no", orderNo);
             dic.Add("total_fee", amt.ToString());
-            dic.Add("body",Api.MchName+"-购物");
-            dic.Add("spbill_create_ip",ip);
-            dic.Add("notify_url","");
-            dic.Add("trade_type","JSAPI");
+            dic.Add("body", Api.MchName + "-购物");
+            dic.Add("spbill_create_ip", ip);
+            dic.Add("notify_url", "");
+            dic.Add("trade_type", "JSAPI");
             dic.Add("openid", SessionCore.OpenId);
-            dic.Add("detail", "{\"goods_detail\":"+detail.Serialize()+"}");
+            dic.Add("detail", "{\"goods_detail\":" + detail.Serialize() + "}");
 
             string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
             string sign = strA.ToMd5().ToUpper();
@@ -99,7 +100,7 @@ namespace Wx.Weixin
             return new WebHttp().WebPost(url, postData);
 
         }
-        public string CreateOrder(string ip,int amt,string callback)
+        public string CreateOrder(string ip, int amt, string callback)
         {
             string url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
             var dic = new Dictionary<string, string>();
@@ -125,77 +126,37 @@ namespace Wx.Weixin
 
         }
 
-
-        private string _PerParam(Dictionary<string, string> Param)
-        {
-            var list = Param.OrderBy(s => s.Key);
-            StringBuilder param = new StringBuilder();
-            foreach (var s in list)
-               param.Append(s.Key).Append("=").Append(s.Value).Append("&");
-
-            var resStr = param.ToString().Trim(new char[] { '&' });
-            return resStr;
-        }
-
         /// <summary>
-        /// Dictionary转换为Xml格式字符串
+        /// 支付JsApi参数
         /// </summary>
-        /// <param name="dic"></param>
+        /// <param name="url"></param>
         /// <returns></returns>
-        private string _DicToXmlStr(Dictionary<string, string> dic) {
-            StringBuilder xml = new StringBuilder();
-            xml.Append("<xml>");
-
-            foreach (var item in dic)
-            {
-                xml.Append("<").Append(item.Key).Append(">");
-                xml.Append("<![CDATA[").Append(item.Value).Append("]]>");
-                xml.Append("</").Append(item.Key).Append(">");
-            }
-            xml.Append("</xml>"); 
-
-            //别问我为什么不用string+的形式，因为SB的效率高啊！
-
-            return xml.ToString();
-        }
-        /// <summary>
-        /// 获取随机字符串
-        /// </summary>
-        public string _Nonce()
+        public string GetPayConfig(string prepay_id)
         {
-            int number;
-            string checkCode = String.Empty;     //存放随机码的字符串   
-
-            var random = new Random();
-            int count = random.Next(23, 31);
-            for (int i = 0; i < count; i++) //产生4位校验码   
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            string nonce = _Nonce().ToLower();
+            string time = _GetTimeStamp();
+            dic.Add("noncestr", nonce);
+            dic.Add("timestamp", time);
+            dic.Add("signType", "MD5");
+            dic.Add("appId", Api.Appid);
+            dic.Add("package", prepay_id);
+            string sign = _PerParam(dic).ToMd5().ToUpper();
+            var ret = new
             {
-                number = random.Next();
-                number = number % 36;
-                if (number < 10)
-                {
-                    number += 48;    //数字0-9编码在48-57   
-                }
-                else
-                {
-                    number += 55;    //字母A-Z编码在65-90   
-                }
+                timestamp = time,
+                nonceStr = nonce,
+                signType = "MD5",
+                package = prepay_id,
+                paySign = sign
+            };
+            return ret.Serialize();
 
-                checkCode += ((char)number).ToString();
-            }
-            return checkCode.ToUpper();
         }
+        #endregion
 
-        /// <summary>
-        /// 简易版订单号（当前时间毫秒的基础上加一位随机数）
-        /// </summary>
-        /// <returns></returns>
-        private string _OrderNo(){
-            var time = DateTime.Now.ToString("HHmmssfff");
-            time += new Random().Next(10).ToString();
-            return Api.MchId+DateTime.Now.ToString("yyyyMMdd")+time;
-        }
 
-       
+
+
     }
 }

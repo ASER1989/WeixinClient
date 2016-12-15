@@ -10,7 +10,7 @@ using Wx.Weixin;
 
 namespace Wx.Client.Controllers
 {
-    //[Login]
+    [Login]
     public class DemoController : Controller
     {
 
@@ -120,8 +120,23 @@ namespace Wx.Client.Controllers
             TempData["userIp"] = Request.ServerVariables.Get("Remote_Addr").ToString();
             return View();
         }
+
+        
         #endregion
 
+        #region pay
+        public JsonResult GetPayConfig() {
+            var orderPay = new OrderPay();
+            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
+            var str = orderPay.GetJsConfig(perOrder.prepay_id);
+            return Json(str, null);
+        }
+
+        public string paycall() {
+             new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0",Request.QueryString.Serialize());
+            return null;
+        }
+        #endregion
         public JsonResult Json(object data, string msg = "", int code = 0)
         {
             return Json(new { data = data, msg = msg, code = code }, JsonRequestBehavior.AllowGet);

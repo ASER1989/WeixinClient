@@ -15,21 +15,23 @@ namespace Wx.Client.Controllers
         //
         // GET: /Test/
 
-        public ActionResult QrTest(int id=0)
+        public ActionResult QrTest(int id = 0)
         {
-            string url ="http://wx.ahyunhe.com/home/RedPackTest";
+            string url = "http://wx.ahyunhe.com/home/RedPackTest";
             string key = "_red_pack_test";
-            if (id == 1900) {
+            if (id == 1900)
+            {
                 url = "http://wx.ahyunhe.com/home/EncRedPack";
                 key = "_enc_red_pack";
             }
-            var img = Cache.CacheApi.Get(key)?? _GetQrUrl(url);
-            Cache.CacheApi.Set(key,img);
+            var img = Cache.CacheApi.Get(key) ?? _GetQrUrl(url);
+            Cache.CacheApi.Set(key, img);
             TempData["img"] = img;
             return View();
         }
 
-        private string _GetQrUrl(string url) {
+        private string _GetQrUrl(string url)
+        {
             string fileName = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss:fff").ToMd5() + ".jpg";
             new Qrcode().SaveQrcode(url, Server.MapPath("/Res/Links") + "/" + fileName);
             return "/Res/Links/" + fileName;
@@ -39,14 +41,15 @@ namespace Wx.Client.Controllers
         {
             if (pwd == "今天天气不错！")
             {
-                SessionCore.Set("_key_Password",pwd);
+                SessionCore.Set("_key_Password", pwd);
                 return Redirect("/test/config");
             }
             return View();
         }
         public ActionResult Config()
         {
-            if (SessionCore.Get("_key_Password").ObjToString() != "今天天气不错！") {
+            if (SessionCore.Get("_key_Password").ObjToString() != "今天天气不错！")
+            {
                 return Redirect("/test/index");
             }
 
@@ -81,15 +84,16 @@ namespace Wx.Client.Controllers
             Cache.CacheApi.Remove("_white_list");
             return Redirect("/test/config");
         }
-        public string CleanJson() { 
+        public string CleanJson()
+        {
             if (SessionCore.Get("_key_Password").ObjToString() != "今天天气不错！")
             {
-                 Redirect("/test/index");
-                 return null;
+                Redirect("/test/index");
+                return null;
             }
             string filepath = Server.MapPath("/Res/Data/json.txt");
-            string bakpath = Server.MapPath("/Res/Data/json_"+DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss")+"-bak.txt");
-            var txt =  System.IO.File.Exists(filepath)? System.IO.File.ReadAllText(filepath):"";
+            string bakpath = Server.MapPath("/Res/Data/json_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + "-bak.txt");
+            var txt = System.IO.File.Exists(filepath) ? System.IO.File.ReadAllText(filepath) : "";
             System.IO.File.WriteAllText(bakpath, txt);
             System.IO.File.WriteAllText(filepath, "");
             return "success!";
@@ -104,10 +108,18 @@ namespace Wx.Client.Controllers
             return Cache.CacheApi.Get("_white_list").ObjToString();
         }
 
-        public ActionResult Debugger() {
+        public ActionResult Debugger()
+        {
             SessionCore.OpenId = "oK8WAt8VieVye7PJW41kU9oW_vH0";
-            new OrderPay().Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
+            var orderPay = new OrderPay();
+            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
+            var str = orderPay.GetJsConfig(perOrder.prepay_id);
+            Response.Write(str);
+            Response.Write(Server.HtmlEncode(perOrder.Serialize()));
+
+            Response.End();
             return Redirect("/home/index");
         }
+
     }
 }

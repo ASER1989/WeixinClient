@@ -17,7 +17,7 @@ namespace Wx.Extend
         /// <param name="xml"></param>  
         /// <param name="encoding"></param>  
         /// <returns></returns>  
-        public static T DeSerialize<T>(this string xml, Encoding encoding=null)
+        public static T XMLDeSerialize<T>(this string xml, Encoding encoding=null)
             where T : new()
         {
             try

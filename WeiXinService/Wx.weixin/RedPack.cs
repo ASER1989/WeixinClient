@@ -64,7 +64,7 @@ namespace Wx.Weixin
         {
             xml = xml.Replace("<xml>", "<xml><root>").Replace("<xml>", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>").Replace("</xml>", "</root></xml>").Replace("</xml>", "");
 
-            return xml.DeSerialize<RedPackBackModel>();
+            return xml.XMLDeSerialize<RedPackBackModel>();
         }
 
 

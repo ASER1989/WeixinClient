@@ -10,9 +10,25 @@ namespace Wx.Weixin
 {
     public class OrderPay
     {
-        public void Pay(string ip) {
-            var str = new PayBase().CreateOrder(ip, 10, "http://aser.src.demo.ahyunhe.com/demo/paycall");
-            var a = 1;
+        private PayBase payBase;
+        public OrderPay() {
+            payBase = new PayBase();
+        }
+        public UnifiedorderModel Pay(string ip)
+        {
+            var str = payBase.CreateOrder(ip, 10, "http://aser.src.demo.ahyunhe.com/demo/paycall");
+            return _DecodeXml(str);
+        }
+
+        public string GetJsConfig(string perpay_id) {
+            return payBase.GetPayConfig(perpay_id);
+        }
+
+        private UnifiedorderModel _DecodeXml(string xml)
+        {
+            xml = xml.Replace("<xml>", "<xml><root>").Replace("<xml>", "<?xml version=\"1.0\" encoding=\"UTF-8\"?>").Replace("</xml>", "</root></xml>").Replace("</xml>", "");
+
+            return xml.XMLDeSerialize<UnifiedorderModel>();
         }
     }
 }
