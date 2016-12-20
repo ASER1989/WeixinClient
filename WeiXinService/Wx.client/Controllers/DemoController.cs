@@ -154,10 +154,10 @@ namespace Wx.Client.Controllers
             string filepath = Server.MapPath(path);
 
             var js = new JavaScriptSerializer();
-            if (System.IO.File.Exists(filepath)) 
+            if (System.IO.File.Exists(filepath))
             {
                 string json = System.IO.File.ReadAllText(filepath);
-                var dt = js.Deserialize<List<DataTestModel>>(json); 
+                var dt = js.Deserialize<List<DataTestModel>>(json);
                 dt.OrderByDescending(p => p.Openid);
                 var sb = new StringBuilder();
                 dt.ForEach((p) =>
@@ -166,9 +166,12 @@ namespace Wx.Client.Controllers
                 });
 
                 Response.Write(sb.ToString());
-               
+
             }
-            Response.Write("暂无数据！");
+            else {
+                Response.Write("暂无数据！");
+            }
+           
             Response.End();
 
             return View();
