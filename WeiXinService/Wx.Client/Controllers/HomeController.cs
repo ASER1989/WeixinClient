@@ -42,6 +42,8 @@ namespace Wx.Client.Controllers
             //string userInfo = opt.GetUserInfo(openid);
             //TempData["userInfo"] = userInfo;
             //return View();
+            string path = "/Res/Data/read_1_json.txt";
+            AddReadLog(SessionCore.OpenId, path);
             return Redirect("/src/index.html");
         }
 
@@ -254,11 +256,42 @@ namespace Wx.Client.Controllers
             }
         }
 
+        private void AddReadLog(string openid, string path)
+        {
+            string filepath = Server.MapPath(path);
+            var js = new JavaScriptSerializer();
+            if (!System.IO.File.Exists(filepath))
+            {
+                List<DataTestModel> dt = new List<DataTestModel>();
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now,Count=1 });
+                var txt = js.Serialize(dt);
+                System.IO.File.WriteAllText(filepath, txt);
+            }
+            else
+            {
+                string json = System.IO.File.ReadAllText(filepath);
+                var dt = js.Deserialize<List<DataTestModel>>(json);
+                if (dt.Any(p => p.Openid == openid))
+                {
+                    var model = dt.FirstOrDefault(p => p.Openid == openid);
+                    model.Count += 1;
+                    model.CreateTime = DateTime.Now;
+                }
+                else {
+                    dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now ,Count=1});
+                } 
+                var txt = js.Serialize(dt);
+                System.IO.File.WriteAllText(filepath, txt);
+            }
+        }
+
         private class DataTestModel
         {
             public string Openid { get; set; }
             public string Key { get; set; }
             public DateTime CreateTime { get; set; }
+
+            public int Count{get;set;}
         }
 
     }

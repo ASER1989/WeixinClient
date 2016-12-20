@@ -7,6 +7,8 @@ using System.Web.Script.Serialization;
 using Wx.Client.Filter;
 using Wx.Extend;
 using Wx.Weixin;
+using System.IO;
+using System.Text;
 
 namespace Wx.Client.Controllers
 {
@@ -146,6 +148,33 @@ namespace Wx.Client.Controllers
         {
             return Json(new { data = data, msg = msg, code = code }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult GetRead()
+        {
+            string path = "/Res/Data/read_1_json.txt";
+            string filepath = Server.MapPath(path);
+
+            var js = new JavaScriptSerializer();
+            if (System.IO.File.Exists(filepath)) 
+            {
+                string json = System.IO.File.ReadAllText(filepath);
+                var dt = js.Deserialize<List<DataTestModel>>(json); 
+                dt.OrderByDescending(p => p.Openid);
+                var sb = new StringBuilder();
+                dt.ForEach((p) =>
+                {
+                    sb.Append("<div>").Append(p.Openid).Append("<span style='float:right'>").Append(p.CreateTime.ToString("yyyy-MM-dd hh:mm:ss")).Append("</span>").Append("&nbsp;&nbsp;<font color='red'>").Append(p.Count).Append("</font></div>");
+                });
+
+                Response.Write(sb.ToString());
+               
+            }
+            Response.Write("暂无数据！");
+            Response.End();
+
+            return View();
+            
+
+        }
         private List<string> GetWhiteList()
         {
 
@@ -205,6 +234,8 @@ namespace Wx.Client.Controllers
             public string Openid { get; set; }
             public string Key { get; set; }
             public DateTime CreateTime { get; set; }
+
+            public int Count { get; set; }
         }
     }
 }
