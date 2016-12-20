@@ -160,6 +160,7 @@ namespace Wx.Client.Controllers
                 var dt = js.Deserialize<List<DataTestModel>>(json);
                 dt.OrderByDescending(p => p.Openid);
                 var sb = new StringBuilder();
+                sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\">");
                 dt.ForEach((p) =>
                 {
                     sb.Append("<div>").Append(p.Openid).Append("<span style='float:right'>").Append(p.CreateTime.ToString("yyyy-MM-dd hh:mm:ss")).Append("</span>").Append("&nbsp;&nbsp;<font color='red'>").Append(p.Count).Append("</font></div>");
