@@ -136,20 +136,22 @@ namespace Wx.Weixin
             Dictionary<string, string> dic = new Dictionary<string, string>();
             string nonce = _Nonce().ToLower();
             string time = _GetTimeStamp();
-            dic.Add("noncestr", nonce);
-            dic.Add("timestamp", time);
+            dic.Add("nonceStr", nonce);
+            dic.Add("timeStamp", time);
             dic.Add("signType", "MD5");
             dic.Add("appId", Api.Appid);
-            dic.Add("package", prepay_id);
-            string sign = _PerParam(dic).ToMd5().ToUpper();
+            dic.Add("package", "prepay_id=" + prepay_id);
+            //string sign = _PerParam(dic).ToMd5().ToUpper();
+            string strA = _PerParam(dic) + "&key=" + Api.SecretKey;
+            string sign = strA.ToMd5().ToUpper();
             var ret = new
             {
-                timestamp = time,
+                appId = Api.Appid,
+                timeStamp = time,
                 nonceStr = nonce,
+                package = "prepay_id=" + prepay_id,
                 signType = "MD5",
-                package = prepay_id,
-                paySign = sign,
-                total_fee=amt
+                paySign = sign
             };
             return ret;
 

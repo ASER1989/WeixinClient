@@ -20,6 +20,9 @@
         <div id="info">
 
         </div>
+        <script>
+            document.writeln('@TempData["payconfig"]'.replace(/&quot;/g,'"'));
+        </script>
     </div>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.1.0.js"></script>
     <script src="~/Res/Scripts/zepto.js"></script>
@@ -90,6 +93,7 @@
                     config.success=function(){
                         alert("success");
                     }
+
                     wx.chooseWXPay(config);
                 } catch (e) {
                     info.innerHTML+="<br/>data:<br/>"+JSON.stringify(e)+e.name+":"+e.message;
