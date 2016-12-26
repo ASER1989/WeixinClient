@@ -129,6 +129,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
     <Content Include="Res\Data\whitelist.txt" />
+    <Content Include="Res\Error\Error.html" />
     <Content Include="Res\Img\loading.png" />
     <Content Include="Res\Img\money.png" />
     <Content Include="Res\Img\redpack.png" />

@@ -121,5 +121,12 @@ namespace Wx.Client.Controllers
             return Redirect("/home/index");
         }
 
+
+        public ActionResult TT() {
+
+            Response.Write(Request.Url.Host.ToString().ToLower());
+            Response.End();
+            return View();
+        }
     }
 }
