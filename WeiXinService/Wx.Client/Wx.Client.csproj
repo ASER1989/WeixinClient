@@ -128,6 +128,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="Res\Data\read_1_json.txt" />
     <Content Include="Res\Data\whitelist.txt" />
     <Content Include="Res\Error\Error.html" />
     <Content Include="Res\Img\loading.png" />

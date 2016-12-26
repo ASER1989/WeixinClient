@@ -85,7 +85,7 @@ namespace Wx.Client.Controllers
                 {
                     packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者.";
                     AddRedPackLog(SessionCore.OpenId, path);
-                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
                 else if (res.result_code == "NOTENOUGH")
                 {
@@ -93,7 +93,7 @@ namespace Wx.Client.Controllers
                 }
                 else
                 {
-                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     packRes = "网络故障，请稍后再试！";
                 }
                 //}
@@ -130,7 +130,7 @@ namespace Wx.Client.Controllers
                 {
                     packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者!";
                     AddRedPackLog(SessionCore.OpenId, path);
-                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
                 else if (res.result_code == "NOTENOUGH")
                 {
@@ -138,7 +138,7 @@ namespace Wx.Client.Controllers
                 }
                 else
                 {
-                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     packRes = "网络故障，请稍后再试！";
                 }
             }
@@ -174,7 +174,7 @@ namespace Wx.Client.Controllers
                 {
                     packRes = "老板很大方，给你发了一个红包！想要更多更大的红包？请贿赂作者!";
                     AddRedPackLog(SessionCore.OpenId, path);
-                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":领钱成功。" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                 }
                 else if (res.result_code == "NOTENOUGH")
                 {
@@ -182,7 +182,7 @@ namespace Wx.Client.Controllers
                 }
                 else
                 {
-                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff"));
+                    new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", new JavaScriptSerializer().Serialize(res) + "      " + SessionCore.Get("reqDic").ToString() + " At:" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
                     packRes = "网络故障，请稍后再试！";
                 }
             }
@@ -239,7 +239,7 @@ namespace Wx.Client.Controllers
             if (!System.IO.File.Exists(filepath))
             {
                 List<DataTestModel> dt = new List<DataTestModel>();
-                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now });
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") });
                 var txt = js.Serialize(dt);
                 System.IO.File.WriteAllText(filepath, txt);
             }
@@ -247,7 +247,7 @@ namespace Wx.Client.Controllers
             {
                 string json = System.IO.File.ReadAllText(filepath);
                 var dt = js.Deserialize<List<DataTestModel>>(json);
-                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now });
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") });
                 var txt = js.Serialize(dt);
                 System.IO.File.WriteAllText(filepath, txt);
             }
@@ -260,7 +260,7 @@ namespace Wx.Client.Controllers
             if (!System.IO.File.Exists(filepath))
             {
                 List<DataTestModel> dt = new List<DataTestModel>();
-                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now, Count = 1 });
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.Ticks.ToString("yyyy-MM-dd HH:mm:ss.fff"), Count = 1 });
                 var txt = js.Serialize(dt);
                 System.IO.File.WriteAllText(filepath, txt);
             }
@@ -272,11 +272,11 @@ namespace Wx.Client.Controllers
                 {
                     var model = dt.FirstOrDefault(p => p.Openid == openid);
                     model.Count += 1;
-                    model.CreateTime = DateTime.Now;
+                    model.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 }
                 else
                 {
-                    dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now, Count = 1 });
+                    dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), Count = 1 });
                 }
                 var txt = js.Serialize(dt);
                 System.IO.File.WriteAllText(filepath, txt);
@@ -287,7 +287,7 @@ namespace Wx.Client.Controllers
         {
             public string Openid { get; set; }
             public string Key { get; set; }
-            public DateTime CreateTime { get; set; }
+            public string CreateTime { get; set; }
 
             public int Count { get; set; }
         }
