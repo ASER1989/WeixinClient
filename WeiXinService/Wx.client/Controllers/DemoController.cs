@@ -121,10 +121,10 @@ namespace Wx.Client.Controllers
             TempData["url"] = url;
             TempData["userIp"] = Request.ServerVariables.Get("Remote_Addr").ToString();
 
-             var orderPay = new OrderPay();
-            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
-            var str = orderPay.GetJsConfig(perOrder.prepay_id,10);
-            TempData["payconfig"] = str.Serialize();
+            // var orderPay = new OrderPay();
+            //var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString(),10);
+            //var str = orderPay.GetJsConfig(perOrder.prepay_id);
+            //TempData["payconfig"] = str.Serialize();
             return View();
         }
         
@@ -135,9 +135,9 @@ namespace Wx.Client.Controllers
         #region pay
         public JsonResult GetPayConfig(int amt =10) {
             var orderPay = new OrderPay();
-            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
-            var str = orderPay.GetJsConfig(perOrder.prepay_id, amt);
-            return Json(str, null);
+            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString(),amt);
+            var str = orderPay.GetJsConfig(perOrder.prepay_id);
+            return Json(str,JsonRequestBehavior.AllowGet);
         }
 
         public string paycall() {

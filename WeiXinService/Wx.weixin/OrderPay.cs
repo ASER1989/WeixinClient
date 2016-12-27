@@ -14,14 +14,14 @@ namespace Wx.Weixin
         public OrderPay() {
             payBase = new PayBase();
         }
-        public UnifiedorderModel Pay(string ip)
+        public UnifiedorderModel Pay(string ip,int amt)
         {
-            var str = payBase.CreateOrder(ip, 10, "http://aser.src.demo.ahyunhe.com/demo/paycall");
+            var str = payBase.CreateOrder(ip, amt, "http://aser.src.demo.ahyunhe.com/demo/paycall");
             return _DecodeXml(str);
         }
 
-        public object GetJsConfig(string perpay_id,int amt) {
-            return payBase.GetPayConfig(perpay_id,amt);
+        public object GetJsConfig(string perpay_id) {
+            return payBase.GetPayConfig(perpay_id);
         }
 
         private UnifiedorderModel _DecodeXml(string xml)

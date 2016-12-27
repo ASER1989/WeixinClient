@@ -112,8 +112,8 @@ namespace Wx.Client.Controllers
         {
             SessionCore.OpenId = "oK8WAt8VieVye7PJW41kU9oW_vH0";
             var orderPay = new OrderPay();
-            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
-            var str = orderPay.GetJsConfig(perOrder.prepay_id,10);
+            var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString(),10);
+            var str = orderPay.GetJsConfig(perOrder.prepay_id);
             Response.Write(str);
             Response.Write(Server.HtmlEncode(perOrder.Serialize()));
 
@@ -127,6 +127,11 @@ namespace Wx.Client.Controllers
             Response.Write(Request.Url.Host.ToString().ToLower());
             Response.End();
             return View();
+        }
+
+        public JsonResult Json(object data, string msg = "", int code = 0)
+        {
+            return Json(new { data = data, msg = msg, code = code }, JsonRequestBehavior.AllowGet);
         }
     }
 }

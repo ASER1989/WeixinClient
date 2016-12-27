@@ -131,7 +131,7 @@ namespace Wx.Weixin
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public object GetPayConfig(string prepay_id,int amt)
+        public object GetPayConfig(string prepay_id)
         {
             Dictionary<string, string> dic = new Dictionary<string, string>();
             string nonce = _Nonce().ToLower();
