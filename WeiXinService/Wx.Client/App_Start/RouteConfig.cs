@@ -12,6 +12,12 @@ namespace Wx.Client
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.txt/{*pathInfo}");
+            routes.MapRoute(
+                name: "demo",
+                url: "demo/{action}/{id}",
+                defaults: new { controller = "demo", action = "SdkTest", id = UrlParameter.Optional }
+            );
             routes.MapRoute(
                 name: "Html",
                 url: "{controller}/{action}.html/{id}",

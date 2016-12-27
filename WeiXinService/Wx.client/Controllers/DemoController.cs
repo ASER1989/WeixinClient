@@ -127,15 +127,16 @@ namespace Wx.Client.Controllers
             TempData["payconfig"] = str.Serialize();
             return View();
         }
+        
 
         
         #endregion
 
         #region pay
-        public JsonResult GetPayConfig() {
+        public JsonResult GetPayConfig(int amt =10) {
             var orderPay = new OrderPay();
             var perOrder = orderPay.Pay(Request.ServerVariables.Get("Remote_Addr").ToString());
-            var str = orderPay.GetJsConfig(perOrder.prepay_id,10);
+            var str = orderPay.GetJsConfig(perOrder.prepay_id, amt);
             return Json(str, null);
         }
 
