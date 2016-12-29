@@ -111,7 +111,7 @@ namespace Wx.Weixin
             dic.Add("nonce_str", nocestr);
             dic.Add("out_trade_no", orderNo);
             dic.Add("total_fee", amt.ToString());
-            dic.Add("body", Api.MchName + "-购物");
+            dic.Add("body", Api.MchName + "-馈赠");
             dic.Add("spbill_create_ip", ip);
             dic.Add("notify_url", callback);
             dic.Add("trade_type", "JSAPI");

@@ -127,7 +127,30 @@ namespace Wx.Client.Controllers
             //TempData["payconfig"] = str.Serialize();
             return View();
         }
-        
+
+        public JsonResult WxInit(string url = null) {
+            url = url ?? Request.Url.ToString();
+            url = url.IndexOf("#") > 0 ? url.Substring(0, url.IndexOf("#")) : url;
+            var res = new JsSdk().GetConfigDic(url);
+            var str = new
+            {
+                appId = res["appId"],
+                timestamp = res["timestamp"],
+                nonceStr = res["nonceStr"],
+                signature = res["signature"],
+                userIp = Request.ServerVariables.Get("Remote_Addr").ToString()
+            };
+            return Json(str, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult Paysuccess(int amt) {
+            AddPayLog(SessionCore.OpenId, amt, "/Res/Data/pay_1_json.txt");
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult PayInit()
+        {
+            return Redirect("/src/pay.html"); 
+        }
 
         
         #endregion
@@ -180,6 +203,38 @@ namespace Wx.Client.Controllers
             
 
         }
+        public ActionResult GetPay()
+        {
+            string path = "/Res/Data/pay_1_json.txt";
+            string filepath = Server.MapPath(path);
+
+            var js = new JavaScriptSerializer();
+            if (System.IO.File.Exists(filepath))
+            {
+                string json = System.IO.File.ReadAllText(filepath);
+                var dt = js.Deserialize<List<DataTestModel>>(json);
+                dt.OrderByDescending(p => p.Openid);
+                var sb = new StringBuilder();
+                sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no\">");
+                dt.ForEach((p) =>
+                {
+                    sb.Append("<div>").Append(p.Openid).Append("<span style='float:right'>").Append(p.CreateTime).Append("</span>").Append("&nbsp;&nbsp;<font color='red'>").Append(p.Count).Append("</font></div>");
+                });
+
+                Response.Write(sb.ToString());
+
+            }
+            else
+            {
+                Response.Write("暂无数据！");
+            }
+
+            Response.End();
+
+            return View();
+
+
+        }
         private List<string> GetWhiteList()
         {
 
@@ -220,7 +275,7 @@ namespace Wx.Client.Controllers
             if (!System.IO.File.Exists(filepath))
             {
                 List<DataTestModel> dt = new List<DataTestModel>();
-                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now });
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") });
                 var txt = js.Serialize(dt);
                 System.IO.File.WriteAllText(filepath, txt);
             }
@@ -228,17 +283,46 @@ namespace Wx.Client.Controllers
             {
                 string json = System.IO.File.ReadAllText(filepath);
                 var dt = js.Deserialize<List<DataTestModel>>(json);
-                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now });
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss") });
                 var txt = js.Serialize(dt);
                 System.IO.File.WriteAllText(filepath, txt);
             }
         }
 
+        private void AddPayLog(string openid,int amt, string path)
+        {
+            string filepath = Server.MapPath(path);
+            var js = new JavaScriptSerializer();
+            if (!System.IO.File.Exists(filepath))
+            {
+                List<DataTestModel> dt = new List<DataTestModel>();
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.Ticks.ToString("yyyy-MM-dd HH:mm:ss.fff"), Count = amt });
+                var txt = js.Serialize(dt);
+                System.IO.File.WriteAllText(filepath, txt);
+            }
+            else
+            {
+                string json = System.IO.File.ReadAllText(filepath);
+                var dt = js.Deserialize<List<DataTestModel>>(json);
+                if (dt.Any(p => p.Openid == openid))
+                {
+                    var model = dt.FirstOrDefault(p => p.Openid == openid);
+                    model.Count += amt;
+                    model.CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                }
+                else
+                {
+                    dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), Count = amt });
+                }
+                var txt = js.Serialize(dt);
+                System.IO.File.WriteAllText(filepath, txt);
+            }
+        }
         private class DataTestModel
         {
             public string Openid { get; set; }
             public string Key { get; set; }
-            public DateTime CreateTime { get; set; }
+            public string CreateTime { get; set; }
 
             public int Count { get; set; }
         }
