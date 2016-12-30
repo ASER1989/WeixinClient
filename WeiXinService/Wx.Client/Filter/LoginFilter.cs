@@ -16,7 +16,7 @@ namespace Wx.Client.Filter
 
             if (filterContext.HttpContext.Request.Url.Host.ToString().ToLower().Equals("aser.src.demo.ahyunhe.com"))
             {
-                filterContext.HttpContext.Response.Redirect("http://wx.ahyunhe.com/");
+                filterContext.HttpContext.Response.Redirect(filterContext.HttpContext.Request.Url.ToString().ToLower().Replace("aser.src.demo.ahyunhe.com", "wx.ahyunhe.com"));
                 filterContext.Result = new ContentResult();
             }
             else {

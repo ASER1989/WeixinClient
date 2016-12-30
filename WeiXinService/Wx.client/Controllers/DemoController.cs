@@ -144,6 +144,7 @@ namespace Wx.Client.Controllers
         }
         public JsonResult Paysuccess(int amt) {
             AddPayLog(SessionCore.OpenId, amt, "/Res/Data/pay_1_json.txt");
+            new MessageManage().SendTextMsg("oK8WAt8VieVye7PJW41kU9oW_vH0", SessionCore.OpenId + ":支付成功。");
             return Json("", JsonRequestBehavior.AllowGet);
         }
 
@@ -296,7 +297,7 @@ namespace Wx.Client.Controllers
             if (!System.IO.File.Exists(filepath))
             {
                 List<DataTestModel> dt = new List<DataTestModel>();
-                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.Ticks.ToString("yyyy-MM-dd HH:mm:ss.fff"), Count = amt });
+                dt.Add(new DataTestModel() { Openid = openid, CreateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), Count = amt });
                 var txt = js.Serialize(dt);
                 System.IO.File.WriteAllText(filepath, txt);
             }
