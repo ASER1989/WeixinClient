@@ -1,0 +1,36 @@
+﻿@model Wx.BLL.PrizeCode
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <div style="text-align:center">
+        查询成功
+        @if (Model != null && Model.AwardFlag == false)
+        {
+            <div style="text-align:center">恭喜您获得@(Model.PrizeName)！</div>
+            if (TempData["isRedPack"] == "1")
+            {
+                <a href="/detail?code=@Model.BarCode">我要领奖</a>
+            }
+        }
+    </div>
+    <div>
+        您所查询的产品为白云边酒业生产的正品，产品名称为：白云边12年，生产日期：2016年12月11日。
+    </div>
+
+    <script src="~/Res/Scripts/zepto.js"></script>
+    <script type="text/javascript">
+
+    </script>
+</body>
+
+</html>

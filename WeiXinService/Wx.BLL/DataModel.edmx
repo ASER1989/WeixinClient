@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BYB_SERVERModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="PrizeCode">
+          <Key>
+            <PropertyRef Name="BarCode" />
+          </Key>
+          <Property Name="BarCode" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PrizeNo" Type="varchar" MaxLength="20" />
+          <Property Name="PrizeName" Type="varchar" MaxLength="50" />
+          <Property Name="PrizeDate" Type="date" />
+          <Property Name="AwardFlag" Type="bit" />
+          <Property Name="AwardDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PrizeSettings">
+          <Key>
+            <PropertyRef Name="PrizeNo" />
+          </Key>
+          <Property Name="PrizeNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="PrizeName" Type="varchar" MaxLength="50" />
+          <Property Name="SalesArea" Type="varchar" MaxLength="20" />
+          <Property Name="PrizeType" Type="int" />
+          <Property Name="Money" Type="int" />
+          <Property Name="Description" Type="text" />
+          <Property Name="PrizeCount" Type="int" />
+          <Property Name="WinningCount" Type="int" />
+          <Property Name="ClosePrize" Type="bit" />
+          <Property Name="CloseDate" Type="date" />
+        </EntityType>
+        <EntityContainer Name="BYB_SERVERModelStoreContainer">
+          <EntitySet Name="PrizeCode" EntityType="Self.PrizeCode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrizeSettings" EntityType="Self.PrizeSettings" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BYB_SERVERModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PrizeCode">
+          <Key>
+            <PropertyRef Name="BarCode" />
+          </Key>
+          <Property Name="BarCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrizeNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PrizeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PrizeDate" Type="DateTime" Precision="0" />
+          <Property Name="AwardFlag" Type="Boolean" />
+          <Property Name="AwardDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PrizeSettings">
+          <Key>
+            <PropertyRef Name="PrizeNo" />
+          </Key>
+          <Property Name="PrizeNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PrizeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SalesArea" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PrizeType" Type="Int32" />
+          <Property Name="Money" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PrizeCount" Type="Int32" />
+          <Property Name="WinningCount" Type="Int32" />
+          <Property Name="ClosePrize" Type="Boolean" />
+          <Property Name="CloseDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityContainer Name="DataModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PrizeCode" EntityType="Self.PrizeCode" />
+          <EntitySet Name="PrizeSettings" EntityType="Self.PrizeSettings" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BYB_SERVERModelStoreContainer" CdmEntityContainer="DataModel">
+          <EntitySetMapping Name="PrizeCode">
+            <EntityTypeMapping TypeName="BYB_SERVERModel.PrizeCode">
+              <MappingFragment StoreEntitySet="PrizeCode">
+                <ScalarProperty Name="BarCode" ColumnName="BarCode" />
+                <ScalarProperty Name="PrizeNo" ColumnName="PrizeNo" />
+                <ScalarProperty Name="PrizeName" ColumnName="PrizeName" />
+                <ScalarProperty Name="PrizeDate" ColumnName="PrizeDate" />
+                <ScalarProperty Name="AwardFlag" ColumnName="AwardFlag" />
+                <ScalarProperty Name="AwardDate" ColumnName="AwardDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrizeSettings">
+            <EntityTypeMapping TypeName="BYB_SERVERModel.PrizeSettings">
+              <MappingFragment StoreEntitySet="PrizeSettings">
+                <ScalarProperty Name="PrizeNo" ColumnName="PrizeNo" />
+                <ScalarProperty Name="PrizeName" ColumnName="PrizeName" />
+                <ScalarProperty Name="SalesArea" ColumnName="SalesArea" />
+                <ScalarProperty Name="PrizeType" ColumnName="PrizeType" />
+                <ScalarProperty Name="Money" ColumnName="Money" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PrizeCount" ColumnName="PrizeCount" />
+                <ScalarProperty Name="WinningCount" ColumnName="WinningCount" />
+                <ScalarProperty Name="ClosePrize" ColumnName="ClosePrize" />
+                <ScalarProperty Name="CloseDate" ColumnName="CloseDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,21 @@
+﻿@model Wx.BLL.PrizeCode
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detail</title>
+</head>
+<body>
+    <div>
+        @if (Model != null) { 
+            <div>【瓶瓶有礼】@(Model.PrizeName)，领取成功；谢谢关注，后续更精彩。</div>
+        }
+    </div>
+</body>
+</html>

@@ -115,6 +115,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PrizeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Filter\LoginFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -156,6 +157,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Wx.BLL\Wx.BLL.csproj">
+      <Project>{8ca38ae7-5976-4114-ab7c-4478fac73a3a}</Project>
+      <Name>Wx.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Wx.Cache\Wx.Cache.csproj">
       <Project>{2e2ee331-54aa-4d20-87ed-df7f744d3f52}</Project>
       <Name>Wx.Cache</Name>
@@ -188,6 +193,7 @@
     <Content Include="Views\Demo\EncRPack.cshtml" />
     <Content Include="Views\Demo\EncTransfer.cshtml" />
     <Content Include="Views\Demo\SdkTest.cshtml" />
+    <Content Include="Views\Prize\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
