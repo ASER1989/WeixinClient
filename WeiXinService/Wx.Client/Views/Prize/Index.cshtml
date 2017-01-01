@@ -8,29 +8,32 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/res/css/code.css" />
+    <title>扫码查询结果</title>
 </head>
 <body>
-    <div style="text-align:center">
-        查询成功
-        @if (Model != null && Model.AwardFlag == false)
-        {
-            <div style="text-align:center">恭喜您获得@(Model.PrizeName)！</div>
-            if (TempData["isRedPack"] == "1")
+   
+    <div class="box">
+        <img src="/res/images/code_bg.gif">
+        <div class="code_tip">
+            <p>查询成功</p>
+            @if (Model != null && Model.AwardFlag == false)
             {
-                <a href="/detail?code=@Model.BarCode">我要领奖</a>
+                <p>您获得@(Model.PrizeName)</p>
             }
+
+        </div>
+        @if (TempData["isRedPack"] == "1")
+        {
+            <a href="/prize/detail?code=@Model.BarCode"><img src="/res/images/code_b.png"></a>
         }
+        <div class="code_result">
+            <h4>查询结果</h4>
+            <p>您所查询的产品为XXXX，生产日期为2016年12月01日，同时您获得XXXX奖励的XXXX积分！</p>
+        </div>
     </div>
-    <div>
-        您所查询的产品为白云边酒业生产的正品，产品名称为：白云边12年，生产日期：2016年12月11日。
-    </div>
-
-    <script src="~/Res/Scripts/zepto.js"></script>
-    <script type="text/javascript">
-
-    </script>
 </body>
 
 </html>

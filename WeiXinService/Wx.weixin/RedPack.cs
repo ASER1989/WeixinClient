@@ -28,9 +28,9 @@ namespace Wx.Weixin
             dic.Add("total_amount", amount.ToString()); //红包里装的毛爷爷（单位：分）
             dic.Add("total_num", "1");//红包发放数量（默认：1，暂不支持修改）
 
-            dic.Add("wishing", "老板发大财！");//红包祝福语（暂未自定义）
-            dic.Add("act_name", "红包测试行动"); //活动名称
-            dic.Add("remark", "JSON你懂吗？");//备注
+            dic.Add("wishing", "瓶瓶有礼");//红包祝福语（暂未自定义）
+            dic.Add("act_name", "瓶瓶有礼"); //活动名称
+            dic.Add("remark", " 谢谢关注，后续更精彩");//备注
 
             var resStr = new PayBase().RedPack(dic, url);
 

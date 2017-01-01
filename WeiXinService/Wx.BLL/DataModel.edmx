@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BYB_SERVERModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BYB_SERVERModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="PrizeCode">
           <Key>
             <PropertyRef Name="BarCode" />
@@ -15,6 +15,7 @@
           <Property Name="PrizeDate" Type="date" />
           <Property Name="AwardFlag" Type="bit" />
           <Property Name="AwardDate" Type="datetime" />
+          <Property Name="openId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="PrizeSettings">
           <Key>
@@ -35,8 +36,7 @@
           <EntitySet Name="PrizeCode" EntityType="Self.PrizeCode" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PrizeSettings" EntityType="Self.PrizeSettings" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BYB_SERVERModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -50,6 +50,7 @@
           <Property Name="PrizeDate" Type="DateTime" Precision="0" />
           <Property Name="AwardFlag" Type="Boolean" />
           <Property Name="AwardDate" Type="DateTime" Precision="3" />
+          <Property Name="openId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="PrizeSettings">
           <Key>
@@ -79,6 +80,7 @@
           <EntitySetMapping Name="PrizeCode">
             <EntityTypeMapping TypeName="BYB_SERVERModel.PrizeCode">
               <MappingFragment StoreEntitySet="PrizeCode">
+                <ScalarProperty Name="openId" ColumnName="openId" />
                 <ScalarProperty Name="BarCode" ColumnName="BarCode" />
                 <ScalarProperty Name="PrizeNo" ColumnName="PrizeNo" />
                 <ScalarProperty Name="PrizeName" ColumnName="PrizeName" />

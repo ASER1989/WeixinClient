@@ -29,7 +29,7 @@ namespace Wx.BLL
         /// 修改奖品领奖状态
         /// </summary>
         /// <param name="code"></param>
-        public void UpdatePrizeState(string code)
+        public void UpdatePrizeState(string code,string openid)
         {
             using (var edm = new DataModel())
             {
@@ -37,6 +37,8 @@ namespace Wx.BLL
                 if (data != null)
                 {
                     data.AwardFlag = true;
+                    data.openId = openid;
+                    data.AwardDate = DateTime.Now;
                     var setting = edm.PrizeSettings.FirstOrDefault(p => p.PrizeNo == data.PrizeNo);
                     if (setting != null)
                     {
@@ -59,6 +61,8 @@ namespace Wx.BLL
                 if (data != null)
                 {
                     data.AwardFlag =false;
+                    //data.openId = null;
+                    //data.AwardDate = null;
                     var setting = edm.PrizeSettings.FirstOrDefault(p => p.PrizeNo == data.PrizeNo);
                     if (setting != null)
                     {

@@ -48,19 +48,28 @@ namespace Wx.Client.Controllers
                 //prizeType：虚拟奖品1，实物奖品2
                 if (prize != null && prize.PrizeType==1) {
                     //修改奖品状态
-                    prbll.UpdatePrizeState(data.BarCode);
-
-                    var res = new RedPack().SendReadPack(SessionCore.OpenId, prize.Money ?? 0);
-                    if (res.return_code == "SUCCESS" && res.result_code == "SUCCESS")
+                    prbll.UpdatePrizeState(data.BarCode,SessionCore.OpenId);
+                    try
                     {
-                        return View(data);
+                        var res = new RedPack().SendReadPack(SessionCore.OpenId, prize.Money ?? 0);
+                        if (res.return_code == "SUCCESS" && res.result_code == "SUCCESS")
+                        {
+                            return View(data);
+                        }
+                        else
+                        {
+                            //奖品状态回滚
+                            prbll.PrizeStateReback(data.BarCode);
+                            return Redirect("/res/error/Error.html");
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
                         //奖品状态回滚
                         prbll.PrizeStateReback(data.BarCode);
                         return Redirect("/res/error/Error.html");
                     }
+                   
                 }
                 
             }

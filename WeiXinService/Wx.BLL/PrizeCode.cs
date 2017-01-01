@@ -20,5 +20,6 @@ namespace Wx.BLL
         public Nullable<System.DateTime> PrizeDate { get; set; }
         public Nullable<bool> AwardFlag { get; set; }
         public Nullable<System.DateTime> AwardDate { get; set; }
+        public string openId { get; set; }
     }
 }

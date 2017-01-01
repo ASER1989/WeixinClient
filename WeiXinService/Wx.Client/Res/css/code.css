@@ -1,0 +1,65 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "微软雅黑";
+	box-sizing: border-box;
+}
+.box,.box2{
+	width: 100%;
+	position: relative;
+}
+.box img,.box2 img{
+	display: block;
+	width: 100%;
+}
+.code_tip{
+	position: absolute;
+	left: 0;
+	top: 35%;
+	width: 100%;
+}
+.code_tip p{
+	font-size: 2em;
+	text-align: center;
+	font-weight: bold;
+	background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(rgba(255, 239, 193, 1)), to(rgba(247, 204, 14, 1)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.box>a{
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 51%;
+}
+.code_result{
+	position: absolute;
+	left: 0;
+	top: 69%;
+	width: 100%;
+	color: #242424;
+	text-align: center;
+	padding: 0 20px;
+}
+.code_result h4{
+	font-size: 1.2em;
+	line-height: 2em;
+}
+.code_result p{
+	font-size: 1em;
+	line-height: 1.8em;
+}
+.box2_tip{
+	padding: 40px 0;
+}
+.box2_tip>p{
+	line-height: 2em;
+	padding: 0 10px;
+	background-color: #FFFFFF;
+}
+
+@media (max-width: 320px) {
+	.code_tip p{
+		font-size: 1.8em;
+	}
+}
