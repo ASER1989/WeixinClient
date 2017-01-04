@@ -21,5 +21,7 @@ namespace Wx.BLL
         public Nullable<bool> AwardFlag { get; set; }
         public Nullable<System.DateTime> AwardDate { get; set; }
         public string openId { get; set; }
+        public Nullable<System.DateTime> FirstQuery { get; set; }
+        public Nullable<int> QueryCount { get; set; }
     }
 }

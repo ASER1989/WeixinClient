@@ -19,14 +19,14 @@ namespace Wx.Client.Controllers
         public ActionResult Index(string code = null)
         {
             var prbll = new PrizeBLL();
-            var data = prbll.GetPrizeByCode(code);
+            var data = prbll.PrizeQuery(code);
 
             TempData["isRedPack"] = "0";
             if (data!=null)
-            {
+            { 
                  var prize = prbll.GetPrizeSetting(data.PrizeNo);
-                //prizeType：虚拟奖品1，实物奖品2
-                 if (prize != null && prize.PrizeType == 1)
+                 //prizeType：虚拟奖品1，实物奖品2 && prize.PrizeType == 1
+                 if (prize != null)
                  {
                      TempData["isRedPack"] = "1";
                  }

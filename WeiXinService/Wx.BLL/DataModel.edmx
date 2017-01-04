@@ -16,6 +16,8 @@
           <Property Name="AwardFlag" Type="bit" />
           <Property Name="AwardDate" Type="datetime" />
           <Property Name="openId" Type="nvarchar" MaxLength="50" />
+          <Property Name="FirstQuery" Type="datetime" />
+          <Property Name="QueryCount" Type="int" />
         </EntityType>
         <EntityType Name="PrizeSettings">
           <Key>
@@ -51,6 +53,8 @@
           <Property Name="AwardFlag" Type="Boolean" />
           <Property Name="AwardDate" Type="DateTime" Precision="3" />
           <Property Name="openId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FirstQuery" Type="DateTime" Precision="3" />
+          <Property Name="QueryCount" Type="Int32" />
         </EntityType>
         <EntityType Name="PrizeSettings">
           <Key>
@@ -80,6 +84,8 @@
           <EntitySetMapping Name="PrizeCode">
             <EntityTypeMapping TypeName="BYB_SERVERModel.PrizeCode">
               <MappingFragment StoreEntitySet="PrizeCode">
+                <ScalarProperty Name="QueryCount" ColumnName="QueryCount" />
+                <ScalarProperty Name="FirstQuery" ColumnName="FirstQuery" />
                 <ScalarProperty Name="openId" ColumnName="openId" />
                 <ScalarProperty Name="BarCode" ColumnName="BarCode" />
                 <ScalarProperty Name="PrizeNo" ColumnName="PrizeNo" />

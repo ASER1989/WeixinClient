@@ -16,6 +16,24 @@ namespace Wx.BLL
             }
         }
 
+        /// <summary>
+        /// 奖品查询并修改访问次数
+        /// </summary>
+        /// <param name="code"></param>
+        public PrizeCode PrizeQuery(string code)
+        {
+            using (var edm  = new DataModel())
+            {
+                var data = edm.PrizeCode.FirstOrDefault(p => p.BarCode == code);
+                if(data!=null){
+                    data.QueryCount = (data.QueryCount ?? 0) + 1;
+                    data.FirstQuery = data.FirstQuery == null ? DateTime.Now : data.FirstQuery;
+                    edm.SaveChanges();
+                }
+                return data;
+            }
+        }
+
         public PrizeSettings GetPrizeSetting(string no) {
             using (var edm = new DataModel())
             {
