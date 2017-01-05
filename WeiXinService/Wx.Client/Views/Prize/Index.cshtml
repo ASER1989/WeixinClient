@@ -10,23 +10,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/res/css/code.css" />
+    <link rel="stylesheet" href="/res/css/code.css?v=1.21" />
     <title>扫码查询结果</title>
 </head>
 
 <body style="background-color: #fff1ae;">
     <div id="prize-index" class="box">
-        <img src="/res/images/code_bg.gif">
+        <img src="/res/images/code_bg.gif?v=1.1">
         <div class="code_tip">
             <h3 class="move title-leave" data-move="true" data-delcls="title-leave" data-delay="200">@(Model == null ? "还差一点，请再接再厉！" : Model.AwardFlag == false ? "恭喜您，红包袭来！" : "很遗憾，红包已经飞走了！")</h3>
+
             <div class="move cont-leave" data-move="true" data-delcls="cont-leave" data-delay="500">
-                <span>此码为第@(Model.QueryCount)次扫描</span>
-                <p>您好，您所购买的商品在@((Model.FirstQuery ?? DateTime.Now).ToString("yyyy年M月d日 HH点mm分ss秒"))被第一次查询。</p>
+                @if (Model != null)
+                {
+                    <span>此码为第@(Model.QueryCount)次扫描</span>
+                    <p>您好，您所购买的商品在@((Model.FirstQuery ?? DateTime.Now).ToString("yyyy年M月d日 HH点mm分ss秒"))被第一次查询。</p>
+
+                }
+                else
+                {
+                    <div class="none">谢君品尝</div>
+                }
             </div>
+
         </div>
-        @if (TempData["isRedPack"] == "1" && Model.AwardFlag==false)
+        @if (TempData["isRedPack"] == "1" && Model.AwardFlag == false)
         {
-            <a class="animated hide" data-move="true" data-delcls="hide" data-cls="zoomIn" data-delay="600" href="/prize/detail?code=@Model.BarCode"><img src="/res/images/code_b.png"></a>
+            <a id="_award" class="animated hide" data-move="true" data-delcls="hide" data-cls="zoomIn" data-delay="600" href="/prize/detail?code=@Model.BarCode"><img src="/res/images/code_b.png"></a>
         }
         <div class="code_result">
             <h4>查询结果</h4>
@@ -35,6 +45,10 @@
     </div>
     <script type="text/javascript" src="http://wx.ahyunhe.com/src/js/page-move.js"></script>
     <script>
+        var w = window.innerWidth;
+        var nw = w * 0.8989;
+        var aw= document.getElementById("_award");
+        if(aw) aw.style["top"] = nw + "px";
         (new move()).start();
     </script>
 </body>

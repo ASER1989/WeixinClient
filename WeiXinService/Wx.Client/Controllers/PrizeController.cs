@@ -15,7 +15,7 @@ namespace Wx.Client.Controllers
     {
         //
         // GET: /Prize/
-        [Login]
+        //[Login]
         public ActionResult Index(string code = null)
         {
             var prbll = new PrizeBLL();

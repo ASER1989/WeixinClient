@@ -37,7 +37,7 @@ html, body {
 }
 
     .code_tip h3 {
-        font-size: 1.3em;
+        font-size: 1.2em;
         line-height: 2em;
         color: #db473b;
         font-weight: normal;
@@ -69,10 +69,7 @@ html, body {
     top: 55%;
 }
 
-.code_result {
-    position: absolute;
-    left: 0;
-    top: 75%;
+.code_result {  
     width: 100%;
     color: #242424;
     text-align: center;
@@ -129,12 +126,19 @@ html, body {
     }
 }
 
+.none {
+    line-height: 2.79em; 
+    box-sizing: border-box;
+    color: #db473b;
+    font-size:2em
+}
+
 #prize-index {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
     -moz-transform: translateZ(0);
     -o-transform: translateZ(0);
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
     #prize-index .move {
